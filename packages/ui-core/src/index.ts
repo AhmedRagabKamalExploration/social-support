@@ -2,4 +2,4 @@
 export * from "@/components/button/button";
 
 // Export utils
-export { cn, formatBytes } from "@/lib/utils";
+export { cn } from "@/lib/utils";

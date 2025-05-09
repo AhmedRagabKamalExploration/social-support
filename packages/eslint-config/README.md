@@ -2,6 +2,7 @@
 
 A comprehensive ESLint configuration package for modern JavaScript and TypeScript projects. This package provides shared configurations for various purposes including:
 
+- **FormatJS**: Enforcing i18n message rules.
 - **Next.js**: Rules for Next.js applications.
 - **Prettier**: Disabling conflicting rules with Prettier.
 - **React**: Best practices for React and JSX.
@@ -26,7 +27,7 @@ This package exports various ESLint configuration objects that can be used as st
 
 ## Key Features
 
-- **Modular and Composable**: Each configuration file targets a specific area (React, Next.js, etc.) so you can extend or combine them as needed.
+- **Modular and Composable**: Each configuration file targets a specific area (React, Next.js, FormatJS, etc.) so you can extend or combine them as needed.
 - **Shared Settings**: Centralized rules for naming conventions, best practices, and code style ensure consistency across projects.
 - **Support for Multiple Frameworks**: Configurations for React, Next.js, and other libraries are all available.
 - **Ease of Use**: Simply extend the provided configuration via your ESLint configuration file.
@@ -38,17 +39,19 @@ The key folders and files in this package are:
 
 - **configs/**: Contains the individual ESLint configuration files.
   - `typescript.js` – Shared config for TypeScript files with additional rules.
+  - `formatjs.js` – Rules related to FormatJS internationalization.
   - `next.js` – Next.js specific ESLint configuration.
   - `prettier.js` – Prettier configuration to disable conflicting ESLint rules.
   - `react.js` – Rules and settings for React projects including JSX guidance.
   - `sonarjs.js` – Configuration for SonarJS to catch bugs and code smells.
   - `storybook.js` – Rules for linting Storybook files.
+  - `turbo.js` – Configurations for projects using Turbo.
   - `unicorn.js` – Enforces modern code practices via eslint-plugin-unicorn.
 - **utils/**:
 
   - `glob.js` – Contains glob patterns used to target files (e.g., `GLOB_TS`, `GLOB_TSX`).
 
-- **index.js**: Acts as the main export file, re-exporting all configurations and utilities. This file lets consumers import specific configs, such as `reactConfig`, `nextConfig`, etc.
+- **index.js**: Acts as the main export file, re-exporting all configurations and utilities. This file lets consumers import specific configs, such as `formatjsConfig`, `nextConfig`, etc.
 
 - **package.json**: Contains the package metadata, exports configuration, dependencies, and peer dependencies (including ESLint and globals).
 
@@ -90,3 +93,7 @@ import { prettierConfig, reactConfig } from "@dge/eslint-config";
 
 export default [reactConfig, prettierConfig];
 ```
+
+## Contributing
+
+## License
