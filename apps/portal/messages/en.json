@@ -8,7 +8,7 @@
     "description": "a government social support portal"
   },
   "NotFoundPage": {
-    "title": "Page not found"
+    "title": "Page not found: (404)"
   },
   "ErrorPage": {
     "title": "Something went wrong!",
