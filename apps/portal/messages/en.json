@@ -1,0 +1,17 @@
+{
+  "HomePage": {
+    "title": "Hello world!",
+    "about": "Go to the about page"
+  },
+  "Metadata": {
+    "title": "Social Support Portal",
+    "description": "a government social support portal"
+  },
+  "NotFoundPage": {
+    "title": "Page not found"
+  },
+  "ErrorPage": {
+    "title": "Something went wrong!",
+    "button": "Try again"
+  }
+}
