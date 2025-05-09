@@ -1,0 +1,12 @@
+{
+  "extends": "@dge/typescript-config/react.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  },
+  "include": [".storybook/**/*.ts", "**/*.ts", "**/*.tsx"]
+}
