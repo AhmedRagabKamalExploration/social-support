@@ -27,7 +27,7 @@ A modern, accessible, and customizable React component library built with TypeSc
 ## 📦 Installation
 
 ```bash
-pnpm install @the-exploration-company/ui-core
+pnpm install @dge/ui-core
 ```
 
 ## 🎯 Usage
@@ -35,13 +35,13 @@ pnpm install @the-exploration-company/ui-core
 ### 1. Import Styles
 
 ```typescript
-import "@the-exploration-company/ui-core/index.css";
+import "@dge/ui-core/index.css";
 ```
 
 ### 2. Use Components
 
 ```typescript
-import { Button, Headline, DropdownMenu } from '@the-exploration-company/ui-core';
+import { Button, Headline, DropdownMenu } from '@dge/ui-core';
 
 function MyComponent() {
   return (
@@ -60,7 +60,7 @@ function MyComponent() {
 A versatile button component with multiple variants and sizes.
 
 ```typescript
-import { Button } from '@the-exploration-company/ui-core';
+import { Button } from '@dge/ui-core';
 
 function Example() {
   return (
@@ -81,7 +81,7 @@ function Example() {
 Typography component for headings.
 
 ```typescript
-import { Headline } from '@the-exploration-company/ui-core';
+import { Headline } from '@dge/ui-core';
 
 function Example() {
   return <Headline variant="h1">Page Title</Headline>;
@@ -97,7 +97,7 @@ function Example() {
 An accessible dropdown menu component.
 
 ```typescript
-import { DropdownMenu } from '@the-exploration-company/ui-core';
+import { DropdownMenu } from '@dge/ui-core';
 
 function Example() {
   return (
@@ -117,7 +117,7 @@ function Example() {
 Inline code display component.
 
 ```typescript
-import { Code } from '@the-exploration-company/ui-core';
+import { Code } from '@dge/ui-core';
 
 function Example() {
   return <Code>const example = "code";</Code>;
@@ -129,7 +129,7 @@ function Example() {
 Text paragraph component with proper spacing.
 
 ```typescript
-import { Paragraph } from '@the-exploration-company/ui-core';
+import { Paragraph } from '@dge/ui-core';
 
 function Example() {
   return <Paragraph>Your content here...</Paragraph>;
