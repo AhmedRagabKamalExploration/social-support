@@ -7,7 +7,6 @@ export * from '@/components/typography/typography';
 export * from '@/components/card/card';
 
 // Export forms components [input, select, textarea, etc.]
-export type * from '@/components/forms';
-
+export * from '@/components/forms';
 // Export utils
 export { cn } from '@/lib/utils';

@@ -1,10 +1,4 @@
-import { useTranslations } from 'next-intl';
 import { z } from 'zod';
-
-// Using a more generic function type for flexibility
-export type TFunction = {
-  (key: string, values?: Record<string, unknown>): string;
-};
 
 const MIN_STRING_LENGTH = 2;
 const MAX_TEXTAREA_LENGTH = 2000;
@@ -13,7 +7,31 @@ const MIN_TEXTAREA_LENGTH = 50;
 // --- Emirates ID Specific Validation ---
 const emiratesIdRegex = /^784-\d{4}-\d{7}-\d{1}$/;
 
-export const createEmiratesIdSchema = (t: TFunction) =>
+// Helper function to safely get translation or use fallback
+const safeTranslate = (
+  t: any,
+  key: string,
+  values?: Record<string, unknown>,
+  fallback?: string,
+) => {
+  try {
+    return t(key, values);
+  } catch (error) {
+    // Use fallback message or generate one from the values
+    if (fallback) return fallback;
+
+    if (key.includes('minLength') && values) {
+      return `${values.field} must be at least ${values.length} characters.`;
+    }
+    if (key.includes('maxLength') && values) {
+      return `${values.field} cannot exceed ${values.length} characters.`;
+    }
+
+    return key.split('.').pop() || key;
+  }
+};
+
+export const createEmiratesIdSchema = (t: any) =>
   z
     .string({ required_error: t('validation.eid.required') })
     .min(1, { message: t('validation.eid.required') })
@@ -31,20 +49,27 @@ export const createEmiratesIdSchema = (t: TFunction) =>
     );
 
 // --- Step 1: Personal Information Schema ---
-export const personalInformationFormSchema = (t: TFunction) => {
+export const personalInformationFormSchema = (t: any) => {
   const emiratesIdSchema = createEmiratesIdSchema(t);
 
   return z.object({
     fullName: z
       .string({ required_error: t('validation.required') })
       .min(MIN_STRING_LENGTH, {
-        message: t('validation.minLength', {
-          field: 'Full name',
-          length: MIN_STRING_LENGTH,
-        }),
+        message: safeTranslate(
+          t,
+          'validation.minLength',
+          { field: 'Full name', length: MIN_STRING_LENGTH },
+          `Full name must be at least ${MIN_STRING_LENGTH} characters.`,
+        ),
       })
       .max(100, {
-        message: t('validation.maxLength', { field: 'Full name', length: 100 }),
+        message: safeTranslate(
+          t,
+          'validation.maxLength',
+          { field: 'Full name', length: 100 },
+          'Full name cannot exceed 100 characters.',
+        ),
       })
       .trim(),
 
@@ -68,46 +93,66 @@ export const personalInformationFormSchema = (t: TFunction) => {
       ),
 
     gender: z.enum(['Male', 'Female'], {
-      required_error: t('validation.gender.required'),
-      errorMap: () => ({ message: t('validation.gender.invalid') }),
+      message: t('validation.gender.invalid'),
     }),
 
     address: z
       .string({ required_error: t('validation.required') })
       .min(5, {
-        message: t('validation.minLength', { field: 'Address', length: 5 }),
+        message: safeTranslate(
+          t,
+          'validation.minLength',
+          { field: 'Address', length: 5 },
+          'Address must be at least 5 characters.',
+        ),
       })
       .max(200, {
-        message: t('validation.maxLength', { field: 'Address', length: 200 }),
+        message: safeTranslate(
+          t,
+          'validation.maxLength',
+          { field: 'Address', length: 200 },
+          'Address cannot exceed 200 characters.',
+        ),
       })
       .trim(),
 
     city: z
       .string({ required_error: t('validation.required') })
       .min(MIN_STRING_LENGTH, {
-        message: t('validation.minLength', {
-          field: 'City',
-          length: MIN_STRING_LENGTH,
-        }),
+        message: safeTranslate(
+          t,
+          'validation.minLength',
+          { field: 'City', length: MIN_STRING_LENGTH },
+          `City must be at least ${MIN_STRING_LENGTH} characters.`,
+        ),
       })
       .max(50, {
-        message: t('validation.maxLength', { field: 'City', length: 50 }),
+        message: safeTranslate(
+          t,
+          'validation.maxLength',
+          { field: 'City', length: 50 },
+          'City cannot exceed 50 characters.',
+        ),
       })
       .trim(),
 
     stateOrEmirate: z
       .string({ required_error: t('validation.required') })
       .min(MIN_STRING_LENGTH, {
-        message: t('validation.minLength', {
-          field: 'State/Emirate',
-          length: MIN_STRING_LENGTH,
-        }),
+        message: safeTranslate(
+          t,
+          'validation.minLength',
+          { field: 'State/Emirate', length: MIN_STRING_LENGTH },
+          `State/Emirate must be at least ${MIN_STRING_LENGTH} characters.`,
+        ),
       })
       .max(50, {
-        message: t('validation.maxLength', {
-          field: 'State/Emirate',
-          length: 50,
-        }),
+        message: safeTranslate(
+          t,
+          'validation.maxLength',
+          { field: 'State/Emirate', length: 50 },
+          'State/Emirate cannot exceed 50 characters.',
+        ),
       })
       .trim(),
 
@@ -136,11 +181,10 @@ export type PersonalInformationFormData = z.infer<
 >;
 
 // --- Step 2: Family & Financial Info Schema ---
-export const familyAndFinancialInfoFormSchema = (t: TFunction) =>
+export const familyAndFinancialInfoFormSchema = (t: any) =>
   z.object({
     maritalStatus: z.enum(['Single', 'Married', 'Divorced', 'Widowed'], {
-      required_error: t('validation.maritalStatus.required'),
-      errorMap: () => ({ message: t('validation.maritalStatus.invalid') }),
+      message: t('validation.maritalStatus.invalid'),
     }),
 
     numberOfDependents: z
@@ -155,8 +199,7 @@ export const familyAndFinancialInfoFormSchema = (t: TFunction) =>
     employmentStatus: z.enum(
       ['Employed', 'Unemployed', 'Student', 'Retired', 'Homemaker', 'Other'],
       {
-        required_error: t('validation.employmentStatus.required'),
-        errorMap: () => ({ message: t('validation.employmentStatus.invalid') }),
+        message: t('validation.employmentStatus.invalid'),
       },
     ),
 
@@ -171,8 +214,7 @@ export const familyAndFinancialInfoFormSchema = (t: TFunction) =>
     housingStatus: z.enum(
       ['Own', 'Rent', 'Living with Family', 'Mortgaged', 'Other'],
       {
-        required_error: t('validation.housingStatus.required'),
-        errorMap: () => ({ message: t('validation.housingStatus.invalid') }),
+        message: t('validation.housingStatus.invalid'),
       },
     ),
   });
@@ -182,47 +224,65 @@ export type FamilyAndFinancialInfoFormData = z.infer<
 >;
 
 // --- Step 3: Situation Descriptions Schema ---
-export const situationDescriptionsFormSchema = (t: TFunction) =>
+export const situationDescriptionsFormSchema = (t: any) =>
   z.object({
     currentFinancialSituation: z
       .string({ required_error: t('validation.required') })
       .min(MIN_TEXTAREA_LENGTH, {
-        message: t('validation.textarea.minLengthDetailed', {
-          length: MIN_TEXTAREA_LENGTH,
-        }),
+        message: safeTranslate(
+          t,
+          'validation.textarea.minLengthDetailed',
+          { length: MIN_TEXTAREA_LENGTH },
+          `Please provide a more detailed description (at least ${MIN_TEXTAREA_LENGTH} characters).`,
+        ),
       })
       .max(MAX_TEXTAREA_LENGTH, {
-        message: t('validation.textarea.maxLength', {
-          length: MAX_TEXTAREA_LENGTH,
-        }),
+        message: safeTranslate(
+          t,
+          'validation.textarea.maxLength',
+          { length: MAX_TEXTAREA_LENGTH },
+          `Description cannot exceed ${MAX_TEXTAREA_LENGTH} characters.`,
+        ),
       })
       .trim(),
 
     employmentCircumstances: z
       .string({ required_error: t('validation.required') })
       .min(MIN_TEXTAREA_LENGTH, {
-        message: t('validation.textarea.minLengthDetailed', {
-          length: MIN_TEXTAREA_LENGTH,
-        }),
+        message: safeTranslate(
+          t,
+          'validation.textarea.minLengthDetailed',
+          { length: MIN_TEXTAREA_LENGTH },
+          `Please provide a more detailed description (at least ${MIN_TEXTAREA_LENGTH} characters).`,
+        ),
       })
       .max(MAX_TEXTAREA_LENGTH, {
-        message: t('validation.textarea.maxLength', {
-          length: MAX_TEXTAREA_LENGTH,
-        }),
+        message: safeTranslate(
+          t,
+          'validation.textarea.maxLength',
+          { length: MAX_TEXTAREA_LENGTH },
+          `Description cannot exceed ${MAX_TEXTAREA_LENGTH} characters.`,
+        ),
       })
       .trim(),
 
     reasonForApplying: z
       .string({ required_error: t('validation.required') })
       .min(MIN_TEXTAREA_LENGTH, {
-        message: t('validation.textarea.minLengthDetailed', {
-          length: MIN_TEXTAREA_LENGTH,
-        }),
+        message: safeTranslate(
+          t,
+          'validation.textarea.minLengthDetailed',
+          { length: MIN_TEXTAREA_LENGTH },
+          `Please provide a more detailed description (at least ${MIN_TEXTAREA_LENGTH} characters).`,
+        ),
       })
       .max(MAX_TEXTAREA_LENGTH, {
-        message: t('validation.textarea.maxLength', {
-          length: MAX_TEXTAREA_LENGTH,
-        }),
+        message: safeTranslate(
+          t,
+          'validation.textarea.maxLength',
+          { length: MAX_TEXTAREA_LENGTH },
+          `Description cannot exceed ${MAX_TEXTAREA_LENGTH} characters.`,
+        ),
       })
       .trim(),
   });
@@ -231,7 +291,7 @@ export type SituationDescriptionsFormData = z.infer<
   ReturnType<typeof situationDescriptionsFormSchema>
 >;
 
-export const createFinancialRequestSchema = (t: TFunction) =>
+export const createFinancialRequestSchema = (t: any) =>
   personalInformationFormSchema(t)
     .merge(familyAndFinancialInfoFormSchema(t))
     .merge(situationDescriptionsFormSchema(t));
