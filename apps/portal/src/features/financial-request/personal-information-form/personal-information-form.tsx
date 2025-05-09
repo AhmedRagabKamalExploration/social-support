@@ -11,12 +11,17 @@ import {
 } from '../schema';
 
 import { Address } from './address/address';
+import { Countries } from './countries/countries';
 import { DateOfBirth } from './date-of-birth/date-of-birth';
 import { FullName } from './fullname/fullname';
 import { Gender } from './gender/gender';
 import { NationalId } from './national-id/national-id';
 
-export function PersonalInformationForm() {
+export function PersonalInformationForm({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const t = useTranslations('feedback');
 
   // Create a completely different adapter that manually handles placeholders
@@ -78,6 +83,7 @@ export function PersonalInformationForm() {
         <DateOfBirth />
         <Gender />
         <Address />
+        {children}
         <Button type="submit">Next</Button>
       </form>
     </FormProvider>
