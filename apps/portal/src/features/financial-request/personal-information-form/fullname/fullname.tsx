@@ -2,7 +2,6 @@
 
 import {
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -25,7 +24,6 @@ export function FullName() {
           <FormControl>
             <Input placeholder="Enter your full name" {...field} />
           </FormControl>
-          <FormDescription>This is your public display name.</FormDescription>
           <FormMessage />
         </FormItem>
       )}

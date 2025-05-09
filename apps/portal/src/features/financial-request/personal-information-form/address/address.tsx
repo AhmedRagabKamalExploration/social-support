@@ -12,17 +12,17 @@ import { useFormContext } from 'react-hook-form';
 
 import type { PersonalInformationFormData } from '@/features/financial-request/schema';
 
-export function NationalId() {
+export function Address() {
   const { control } = useFormContext<PersonalInformationFormData>();
   return (
     <FormField
       control={control}
-      name="nationalId"
+      name="address"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>National ID</FormLabel>
+          <FormLabel>Address</FormLabel>
           <FormControl>
-            <Input placeholder="784-YYYY-XXXXXXX-X" {...field} />
+            <Input placeholder="Enter your address" {...field} />
           </FormControl>
           <FormMessage />
         </FormItem>
