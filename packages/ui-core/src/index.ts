@@ -5,6 +5,8 @@ export * from '@/components/dropdown-menu/dropdown-menu';
 export * from '@/components/progress/progress';
 export * from '@/components/typography/typography';
 export * from '@/components/card/card';
+export * from '@/components/calendar/calendar';
+export * from '@/components/popover/popover';
 
 // Export forms components [input, select, textarea, etc.]
 export * from '@/components/forms';
