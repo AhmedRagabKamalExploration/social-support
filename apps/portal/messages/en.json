@@ -13,5 +13,62 @@
   "ErrorPage": {
     "title": "Something went wrong!",
     "button": "Try again"
+  },
+  "feedback": {
+    "validation": {
+      "required": "This field is required.",
+      "minLength": "{{field}} must be at least {{length}} characters.",
+      "maxLength": "{{field}} cannot exceed {{length}} characters.",
+      "invalidEmail": "Invalid email address.",
+      "eid": {
+        "format": "Invalid Emirates ID format. Expected: 784-YYYY-XXXXXXX-X",
+        "year": "Invalid birth year in Emirates ID.",
+        "required": "National ID is required."
+      },
+      "dob": {
+        "required": "Date of Birth is required.",
+        "invalidPast": "Please enter a valid past date of birth."
+      },
+      "gender": {
+        "required": "Gender is required.",
+        "invalid": "Please select a valid gender."
+      },
+      "country": {
+        "required": "Country is required."
+      },
+      "phone": {
+        "required": "Phone number is required.",
+        "invalidFormatUAE": "Invalid UAE phone number format. Expected: +971 XX XXX XXXX or +971XXXXXXXXX."
+      },
+      "maritalStatus": {
+        "required": "Marital status is required.",
+        "invalid": "Please select a valid marital status."
+      },
+      "dependents": {
+        "required": "Number of dependents is required.",
+        "mustBeNumber": "Number of dependents must be a number.",
+        "mustBeInteger": "Number of dependents must be a whole number.",
+        "nonNegative": "Number of dependents cannot be negative.",
+        "tooHigh": "Number of dependents seems too high. Please verify."
+      },
+      "employmentStatus": {
+        "required": "Employment status is required.",
+        "invalid": "Please select a valid employment status."
+      },
+      "monthlyIncome": {
+        "required": "Monthly income is required.",
+        "mustBeNumber": "Monthly income must be a number.",
+        "nonNegative": "Monthly income cannot be negative.",
+        "tooHigh": "Monthly income seems unusually high. Please verify."
+      },
+      "housingStatus": {
+        "required": "Housing status is required.",
+        "invalid": "Please select a valid housing status."
+      },
+      "textarea": {
+        "maxLength": "Description cannot exceed {{length}} characters.",
+        "minLengthDetailed": "Please provide a more detailed description (at least {{length}} characters)."
+      }
+    }
   }
 }
