@@ -8,6 +8,7 @@ import {
   FormMessage,
   Textarea,
 } from '@dge/ui-core';
+import { useTranslations } from 'next-intl';
 import { useFormContext } from 'react-hook-form';
 
 import type { SituationDescriptionsFormData } from '@/features/financial-request/schema';
@@ -17,6 +18,9 @@ import HelpMeWrite from '../help-me-write/help-me-write';
 
 export function CurrentFinancialSituation() {
   const { control } = useFormContext<SituationDescriptionsFormData>();
+  const t = useTranslations(
+    'Pages.SituationDescription.components.situationDescriptionForm.CurrentFinancialSituation',
+  );
 
   // Get family finance data from store
   const familyFinanceInfo = useFinancialRequestStore(
@@ -53,12 +57,12 @@ export function CurrentFinancialSituation() {
       render={({ field }) => (
         <FormItem>
           <div className="flex items-center justify-between">
-            <FormLabel>1. Current Financial Situation</FormLabel>
+            <FormLabel>{t('label')}</FormLabel>
             <HelpMeWrite prompt={prompt} onChange={field.onChange} />
           </div>
           <FormControl>
             <Textarea
-              placeholder="Describe your current financial situation..."
+              placeholder={t('placeholder')}
               className="min-h-32"
               {...field}
             />

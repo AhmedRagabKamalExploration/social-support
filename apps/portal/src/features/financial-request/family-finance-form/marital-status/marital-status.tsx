@@ -12,6 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@dge/ui-core';
+import { useTranslations } from 'next-intl';
 import { useFormContext } from 'react-hook-form';
 
 import type {
@@ -20,6 +21,9 @@ import type {
 } from '@/features/financial-request/schema';
 
 export function MaritalStatus() {
+  const t = useTranslations(
+    'Pages.FamilyFinanceInfo.components.familyFinanceForm.MaritalStatus',
+  );
   const { control } = useFormContext<FamilyAndFinancialInfoFormData>();
 
   return (
@@ -28,18 +32,18 @@ export function MaritalStatus() {
       name="maritalStatus"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Marital Status</FormLabel>
+          <FormLabel>{t('label')}</FormLabel>
           <Select onValueChange={field.onChange} defaultValue={field.value}>
             <FormControl>
               <SelectTrigger>
-                <SelectValue placeholder="Select a marital status" />
+                <SelectValue placeholder={t('placeholder')} />
               </SelectTrigger>
             </FormControl>
             <SelectContent>
-              <SelectItem value="single">Single</SelectItem>
-              <SelectItem value="married">Married</SelectItem>
-              <SelectItem value="divorced">Divorced</SelectItem>
-              <SelectItem value="widowed">Widowed</SelectItem>
+              <SelectItem value="single">{t('single')}</SelectItem>
+              <SelectItem value="married">{t('married')}</SelectItem>
+              <SelectItem value="divorced">{t('divorced')}</SelectItem>
+              <SelectItem value="widowed">{t('widowed')}</SelectItem>
             </SelectContent>
           </Select>
           <FormMessage />

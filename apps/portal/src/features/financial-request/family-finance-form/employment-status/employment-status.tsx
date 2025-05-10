@@ -12,12 +12,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@dge/ui-core';
+import { useTranslations } from 'next-intl';
 import { useFormContext } from 'react-hook-form';
 
 import type { FamilyAndFinancialInfoFormData } from '@/features/financial-request/schema';
 
 export function EmploymentStatus() {
   const { control } = useFormContext<FamilyAndFinancialInfoFormData>();
+  const t = useTranslations(
+    'Pages.FamilyFinanceInfo.components.familyFinanceForm.EmploymentStatus',
+  );
 
   return (
     <FormField
@@ -25,20 +29,20 @@ export function EmploymentStatus() {
       name="employmentStatus"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Employment Status</FormLabel>
+          <FormLabel>{t('label')}</FormLabel>
           <Select onValueChange={field.onChange} defaultValue={field.value}>
             <FormControl>
               <SelectTrigger>
-                <SelectValue placeholder="Select an employment status" />
+                <SelectValue placeholder={t('placeholder')} />
               </SelectTrigger>
             </FormControl>
             <SelectContent>
-              <SelectItem value="employed">Employed</SelectItem>
-              <SelectItem value="unemployed">Unemployed</SelectItem>
-              <SelectItem value="student">Student</SelectItem>
-              <SelectItem value="retired">Retired</SelectItem>
-              <SelectItem value="homemaker">Homemaker</SelectItem>
-              <SelectItem value="other">Other</SelectItem>
+              <SelectItem value="employed">{t('employed')}</SelectItem>
+              <SelectItem value="unemployed">{t('unemployed')}</SelectItem>
+              <SelectItem value="student">{t('student')}</SelectItem>
+              <SelectItem value="retired">{t('retired')}</SelectItem>
+              <SelectItem value="homemaker">{t('homemaker')}</SelectItem>
+              <SelectItem value="other">{t('other')}</SelectItem>
             </SelectContent>
           </Select>
           <FormMessage />

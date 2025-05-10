@@ -8,6 +8,7 @@ import {
   FormMessage,
   Textarea,
 } from '@dge/ui-core';
+import { useTranslations } from 'next-intl';
 import { useFormContext } from 'react-hook-form';
 
 import type { SituationDescriptionsFormData } from '@/features/financial-request/schema';
@@ -17,6 +18,9 @@ import HelpMeWrite from '../help-me-write/help-me-write';
 
 export function ReasonForApplying() {
   const { control } = useFormContext<SituationDescriptionsFormData>();
+  const t = useTranslations(
+    'Pages.SituationDescription.components.situationDescriptionForm.ReasonForApplying',
+  );
 
   // Get data from store
   const personalInfo = useFinancialRequestStore(
@@ -60,12 +64,12 @@ export function ReasonForApplying() {
       render={({ field }) => (
         <FormItem>
           <div className="flex items-center justify-between">
-            <FormLabel>3. Reason for Applying</FormLabel>
+            <FormLabel>{t('label')}</FormLabel>
             <HelpMeWrite prompt={prompt} onChange={field.onChange} />
           </div>
           <FormControl>
             <Textarea
-              placeholder="Describe your reason for applying..."
+              placeholder={t('placeholder')}
               className="min-h-32"
               {...field}
             />

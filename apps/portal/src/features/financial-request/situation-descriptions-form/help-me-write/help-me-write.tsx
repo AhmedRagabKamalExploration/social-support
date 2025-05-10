@@ -17,10 +17,11 @@ type HelpMeWriteProps = {
 };
 
 export default function HelpMeWrite({ prompt, onChange }: HelpMeWriteProps) {
-  const t = useTranslations('HelpMeWrite');
   const [open, setOpen] = useState(false);
   const [editedContent, setEditedContent] = useState('');
-
+  const t = useTranslations(
+    'Pages.SituationDescription.components.situationDescriptionForm.HelpMeWrite',
+  );
   const [_state, formAction, isPending] = useActionState(async () => {
     const result = await helpMeWriteAction(prompt);
 
@@ -63,7 +64,7 @@ export default function HelpMeWrite({ prompt, onChange }: HelpMeWriteProps) {
         disabled={isPending}
       >
         <Sparkles className="mr-2 size-4" />
-        {isPending ? 'Generating...' : 'Help Me Write'}
+        {isPending ? t('buttonGenerating') : t('buttonLabel')}
       </Button>
       <ReviewAiContentDialog
         open={open}
