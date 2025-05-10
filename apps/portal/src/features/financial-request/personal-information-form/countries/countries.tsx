@@ -58,10 +58,9 @@ export function Countries({ countries }: { countries: Country[] }) {
                   )}
                 >
                   {field.value
-                    ? languages.find(
-                        (language) => language.value === field.value,
-                      )?.label
-                    : 'Select language'}
+                    ? countries.find((country) => country.name === field.value)
+                        ?.name
+                    : 'Select country'}
                   <ChevronsUpDown className="opacity-50" />
                 </ShadButton>
               </FormControl>
@@ -75,19 +74,19 @@ export function Countries({ countries }: { countries: Country[] }) {
                 <CommandList>
                   <CommandEmpty>No framework found.</CommandEmpty>
                   <CommandGroup>
-                    {languages.map((language) => (
+                    {countries.map((country) => (
                       <CommandItem
-                        value={language.label}
-                        key={language.value}
+                        value={country.name}
+                        key={country.name}
                         onSelect={() => {
-                          setValue('country', language.value);
+                          setValue('country', country.name);
                         }}
                       >
-                        {language.label}
+                        {country.name}
                         <Check
                           className={cn(
                             'ml-auto',
-                            language.value === field.value
+                            country.name === field.value
                               ? 'opacity-100'
                               : 'opacity-0',
                           )}

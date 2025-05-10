@@ -1,5 +1,9 @@
 import 'server-only';
 
+import { envConfig } from '@/config/env-config';
+
+const { RAPID_API_KEY, RAPID_API_HOST } = envConfig;
+
 /**
  * HTTP error with additional response data
  */
@@ -45,6 +49,8 @@ export async function http<T = unknown>(
     headers: {
       ...defaultOptions.headers,
       ...options.headers,
+      'X-RapidAPI-Key': RAPID_API_KEY,
+      'X-RapidAPI-Host': RAPID_API_HOST,
     },
   };
 

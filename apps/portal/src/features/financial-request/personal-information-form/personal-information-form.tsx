@@ -11,7 +11,6 @@ import {
 } from '../schema';
 
 import { Address } from './address/address';
-import { Countries } from './countries/countries';
 import { DateOfBirth } from './date-of-birth/date-of-birth';
 import { FullName } from './fullname/fullname';
 import { Gender } from './gender/gender';

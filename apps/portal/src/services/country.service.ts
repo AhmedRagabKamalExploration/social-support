@@ -4,14 +4,11 @@ import {
 } from 'next/cache';
 import 'server-only';
 
-import { envConfig } from '@/config/env-config';
 import { ENDPOINTS } from '@/constant/endpoints';
 import { httpWithType } from '@/http';
 import type { CountryResponse } from '@/types/country.type';
 
 import { getFullApiUrl } from './domain.service';
-
-const { RAPID_API_KEY, RAPID_API_HOST } = envConfig;
 
 export async function getCountries() {
   'use cache';
@@ -23,12 +20,8 @@ export async function getCountries() {
 
   const url = getFullApiUrl(path);
 
-  const headers = new Headers();
-  headers.set('X-RapidAPI-Key', RAPID_API_KEY);
-  headers.set('X-RapidAPI-Host', RAPID_API_HOST);
-
   try {
-    return await httpWithType<CountryResponse>(url, { headers });
+    return await httpWithType<CountryResponse>(url);
   } catch (error) {
     throw error;
   }
