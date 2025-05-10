@@ -13,6 +13,7 @@ import {
 import { Address } from './address/address';
 import { CountryStateCities } from './cities/cities';
 import { DateOfBirth } from './date-of-birth/date-of-birth';
+import { Email } from './email/email';
 import { FullName } from './fullname/fullname';
 import { Gender } from './gender/gender';
 import { NationalId } from './national-id/national-id';
@@ -89,6 +90,7 @@ export function PersonalInformationForm({
         <CountryStates />
         <CountryStateCities />
         <PhoneNumber />
+        <Email />
         <Button type="submit">Next</Button>
       </form>
     </FormProvider>
