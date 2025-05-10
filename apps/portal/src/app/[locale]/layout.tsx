@@ -6,6 +6,7 @@ import {
 } from 'next-intl/server';
 import { Geist, Geist_Mono } from 'next/font/google';
 import { notFound } from 'next/navigation';
+import { Toaster } from 'sonner';
 
 import { Providers } from '@/context/providers/providers';
 import type { Locale } from '@/i18n/locale';
@@ -59,6 +60,7 @@ export default async function RootLayout({
     <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <Providers messages={messages}>{children}</Providers>
+        <Toaster richColors />
       </body>
     </html>
   );

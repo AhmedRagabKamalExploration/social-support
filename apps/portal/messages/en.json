@@ -70,5 +70,13 @@
         "minLengthDetailed": "Please provide a more detailed description (at least {{length}} characters)."
       }
     }
+  },
+  "HelpMeWrite": {
+    "button": "Help Me Write",
+    "generating": "Generating...",
+    "errorCodes": {
+      "insufficient_quota": "You have insufficient quota to generate this content. Please try again later.",
+      "invalid_api_key": "Invalid API key. Please check your API key and try again."
+    }
   }
 }

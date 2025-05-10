@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  Button,
   FormControl,
   FormField,
   FormItem,
@@ -14,8 +13,18 @@ import { useFormContext } from 'react-hook-form';
 
 import type { SituationDescriptionsFormData } from '@/features/financial-request/schema';
 
+import HelpMeWrite from '../help-me-write/help-me-write';
+
 export function CurrentFinancialSituation() {
   const { control } = useFormContext<SituationDescriptionsFormData>();
+
+  const formData = {
+    employmentStatus: 'employed',
+    monthlyIncome: 1000,
+  };
+
+  const prompt = `I am ${formData.employmentStatus} with a monthly income of ${formData.monthlyIncome}. Help me describe my financial situation.`;
+
   return (
     <FormField
       control={control}
@@ -24,10 +33,7 @@ export function CurrentFinancialSituation() {
         <FormItem>
           <div className="flex items-center justify-between">
             <FormLabel>1. Current Financial Situation</FormLabel>
-            <Button variant="outline" size="sm" type="button">
-              <Sparkles className="mr-2 size-4" />
-              Help Me Write
-            </Button>
+            <HelpMeWrite prompt={prompt} onChange={field.onChange} />
           </div>
           <FormControl>
             <Textarea
