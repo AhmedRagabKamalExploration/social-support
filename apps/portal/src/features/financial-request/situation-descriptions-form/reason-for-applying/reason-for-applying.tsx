@@ -11,18 +11,47 @@ import {
 import { useFormContext } from 'react-hook-form';
 
 import type { SituationDescriptionsFormData } from '@/features/financial-request/schema';
+import { useFinancialRequestStore } from '@/store/financial-request.store';
 
 import HelpMeWrite from '../help-me-write/help-me-write';
 
 export function ReasonForApplying() {
   const { control } = useFormContext<SituationDescriptionsFormData>();
 
+  // Get data from store
+  const personalInfo = useFinancialRequestStore(
+    (state) => state.personalInformation,
+  );
+  const familyFinanceInfo = useFinancialRequestStore(
+    (state) => state.familyFinanceInfo,
+  );
+
   const formData = {
-    financialNeed: 'emergency medical expenses',
+    fullName: personalInfo?.fullName || '',
+    employmentStatus: familyFinanceInfo?.employmentStatus || 'employed',
+    monthlyIncome: familyFinanceInfo?.monthlyIncome || 0,
+    dependents: familyFinanceInfo?.numberOfDependents || 0,
+    maritalStatus: familyFinanceInfo?.maritalStatus || 'single',
+    financialNeed: 'financial assistance',
     requestAmount: 5000,
   };
 
-  const prompt = `I am applying for financial assistance of $${formData.requestAmount} to help with ${formData.financialNeed}. Help me explain my reason for applying.`;
+  // Personalize the reason based on circumstances
+  let reasonContext = '';
+
+  if (formData.employmentStatus === 'unemployed') {
+    reasonContext = 'due to my current unemployment situation';
+  } else if (formData.employmentStatus === 'student') {
+    reasonContext = 'as a student with limited income';
+  } else if (formData.monthlyIncome < 2000) {
+    reasonContext = 'due to my limited monthly income';
+  } else if (formData.dependents > 2) {
+    reasonContext = `as I need to support ${formData.dependents} dependents`;
+  }
+
+  const prompt = `I am ${formData.fullName}, ${formData.maritalStatus} with ${formData.dependents} dependents. 
+  I am applying for financial assistance of $${formData.requestAmount} ${reasonContext}. 
+  Help me write a detailed and compelling reason for applying for financial support that is at least 100 words long.`;
 
   return (
     <FormField

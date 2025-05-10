@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { useRouter } from '@/i18n/navigation';
+import { useFinancialRequestStore } from '@/store/financial-request.store';
 
 import {
   type FamilyAndFinancialInfoFormData,
@@ -21,6 +22,12 @@ import { NumberOfDependents } from './number-of-dependents/number-of-dependents'
 export function FamilyFinanceForm() {
   const t = useTranslations('feedback');
   const router = useRouter();
+  const setFamilyFinanceInfo = useFinancialRequestStore(
+    (state) => state.setFamilyFinanceInfo,
+  );
+  const savedData = useFinancialRequestStore(
+    (state) => state.familyFinanceInfo,
+  );
 
   // Create a completely different adapter that manually handles placeholders
   const tAdapter = (key: string, values?: Record<string, unknown>) => {
@@ -52,7 +59,7 @@ export function FamilyFinanceForm() {
 
   const form = useForm<FamilyAndFinancialInfoFormData>({
     resolver: zodResolver(familyAndFinancialInfoFormSchema(tAdapter)),
-    defaultValues: {
+    defaultValues: savedData || {
       maritalStatus: undefined,
       numberOfDependents: 0,
       employmentStatus: undefined,
@@ -63,6 +70,8 @@ export function FamilyFinanceForm() {
 
   const onSubmit = (data: FamilyAndFinancialInfoFormData) => {
     console.log(data);
+    // Save data to Zustand store
+    setFamilyFinanceInfo(data);
     router.push('/financial-request/situation-descriptions');
   };
 

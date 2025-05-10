@@ -8,22 +8,43 @@ import {
   FormMessage,
   Textarea,
 } from '@dge/ui-core';
-import { Sparkles } from 'lucide-react';
 import { useFormContext } from 'react-hook-form';
 
 import type { SituationDescriptionsFormData } from '@/features/financial-request/schema';
+import { useFinancialRequestStore } from '@/store/financial-request.store';
 
 import HelpMeWrite from '../help-me-write/help-me-write';
 
 export function CurrentFinancialSituation() {
   const { control } = useFormContext<SituationDescriptionsFormData>();
 
+  // Get family finance data from store
+  const familyFinanceInfo = useFinancialRequestStore(
+    (state) => state.familyFinanceInfo,
+  );
+
   const formData = {
-    employmentStatus: 'employed',
-    monthlyIncome: 1000,
+    employmentStatus: familyFinanceInfo?.employmentStatus || 'employed',
+    monthlyIncome: familyFinanceInfo?.monthlyIncome || 0,
+    housingStatus: familyFinanceInfo?.housingStatus || 'rent',
+    maritalStatus: familyFinanceInfo?.maritalStatus || 'single',
+    numberOfDependents: familyFinanceInfo?.numberOfDependents || 0,
   };
 
-  const prompt = `I am ${formData.employmentStatus} with a monthly income of ${formData.monthlyIncome}. Help me describe my financial situation.`;
+  const prompt = `I am ${formData.employmentStatus} with a monthly income of ${formData.monthlyIncome}. 
+  I am ${formData.maritalStatus} with ${formData.numberOfDependents} dependents. 
+  My housing situation is: ${
+    formData.housingStatus === 'own'
+      ? 'I own my home'
+      : formData.housingStatus === 'rent'
+        ? 'I pay rent'
+        : formData.housingStatus === 'living_with_family'
+          ? 'I live with family'
+          : formData.housingStatus === 'mortgaged'
+            ? 'I have a mortgage'
+            : 'Other housing situation'
+  }. 
+  Help me describe my current financial situation comprehensively.`;
 
   return (
     <FormField

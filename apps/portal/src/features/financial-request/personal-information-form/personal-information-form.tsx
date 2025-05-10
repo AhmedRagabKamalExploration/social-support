@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { useRouter } from '@/i18n/navigation';
+import { useFinancialRequestStore } from '@/store/financial-request.store';
 
 import {
   type PersonalInformationFormData,
@@ -29,6 +30,13 @@ export function PersonalInformationForm({
 }) {
   const t = useTranslations('feedback');
   const router = useRouter();
+  const setPersonalInformation = useFinancialRequestStore(
+    (state) => state.setPersonalInformation,
+  );
+  const savedData = useFinancialRequestStore(
+    (state) => state.personalInformation,
+  );
+
   // Create a completely different adapter that manually handles placeholders
   const tAdapter = (key: string, values?: Record<string, unknown>) => {
     try {
@@ -59,7 +67,7 @@ export function PersonalInformationForm({
 
   const form = useForm<PersonalInformationFormData>({
     resolver: zodResolver(personalInformationFormSchema(tAdapter)),
-    defaultValues: {
+    defaultValues: savedData || {
       fullName: '',
       nationalId: '',
       dateOfBirth: '',
@@ -75,6 +83,8 @@ export function PersonalInformationForm({
 
   const onSubmit = (data: PersonalInformationFormData) => {
     console.log(data);
+    // Save data to Zustand store
+    setPersonalInformation(data);
     router.push('/financial-request/family-finance-info');
   };
 

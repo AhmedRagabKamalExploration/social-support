@@ -3,19 +3,45 @@
 import { Button } from '@dge/ui-core';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
+import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 import {
   type SituationDescriptionsFormData,
   situationDescriptionsFormSchema,
 } from '@/features/financial-request/schema';
+import { useRouter } from '@/i18n/navigation';
+import { useFinancialRequestStore } from '@/store/financial-request.store';
 
 import { CurrentFinancialSituation } from './current-financial-situation/current-financial-situation';
 import { EmploymentCircumstances } from './employment-circumstances/employment-circumstances';
 import { ReasonForApplying } from './reason-for-applying/reason-for-applying';
 
+// API response type
+interface FinancialRequestResponse {
+  success: boolean;
+  message: string;
+  requestId?: string;
+}
+
 export function SituationDescriptionsForm() {
   const t = useTranslations('feedback');
+  const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const setSituationDescriptions = useFinancialRequestStore(
+    (state) => state.setSituationDescriptions,
+  );
+  const getCompleteFormData = useFinancialRequestStore(
+    (state) => state.getCompleteFormData,
+  );
+  const resetFormData = useFinancialRequestStore(
+    (state) => state.resetFormData,
+  );
+  const savedData = useFinancialRequestStore(
+    (state) => state.situationDescriptions,
+  );
 
   // Create a completely different adapter that manually handles placeholders
   const tAdapter = (key: string, values?: Record<string, unknown>) => {
@@ -47,16 +73,61 @@ export function SituationDescriptionsForm() {
 
   const form = useForm<SituationDescriptionsFormData>({
     resolver: zodResolver(situationDescriptionsFormSchema(tAdapter)),
-    defaultValues: {
+    defaultValues: savedData || {
       currentFinancialSituation: '',
       employmentCircumstances: '',
       reasonForApplying: '',
     },
   });
 
-  const onSubmit = (data: SituationDescriptionsFormData) => {
-    console.log(data);
-    // TODO: submit the form, call your backend api
+  const onSubmit = async (data: SituationDescriptionsFormData) => {
+    try {
+      setIsSubmitting(true);
+
+      // Save data to Zustand store
+      setSituationDescriptions(data);
+
+      // Get complete form data
+      const completeFormData = getCompleteFormData();
+      console.log('Complete form data:', completeFormData);
+
+      // Submit the complete form data to the backend API
+      const response = await fetch('/api/financial-request', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(completeFormData),
+      });
+
+      const result = (await response.json()) as FinancialRequestResponse;
+
+      if (!response.ok) {
+        throw new Error(result.message || 'Failed to submit request');
+      }
+
+      // Show success message
+      toast.success('Application submitted successfully!', {
+        description: `Your request ID is ${result.requestId}`,
+      });
+
+      // Navigate to success page with the request ID
+      if (result.requestId) {
+        router.push(`/financial-request/success?requestId=${result.requestId}`);
+      } else {
+        router.push('/financial-request/success');
+      }
+
+      // Log the success
+      console.log('Form submitted successfully!', result);
+    } catch (error: any) {
+      console.error('Error submitting form:', error);
+      toast.error('Failed to submit application', {
+        description: error.message || 'Please try again later',
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -66,7 +137,9 @@ export function SituationDescriptionsForm() {
           <CurrentFinancialSituation />
           <EmploymentCircumstances />
           <ReasonForApplying />
-          <Button type="submit">Next</Button>
+          <Button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? 'Submitting...' : 'Submit Application'}
+          </Button>
         </div>
       </form>
     </FormProvider>
