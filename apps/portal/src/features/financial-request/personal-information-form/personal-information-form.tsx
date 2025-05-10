@@ -11,10 +11,12 @@ import {
 } from '../schema';
 
 import { Address } from './address/address';
+import { CountryStateCities } from './cities/cities';
 import { DateOfBirth } from './date-of-birth/date-of-birth';
 import { FullName } from './fullname/fullname';
 import { Gender } from './gender/gender';
 import { NationalId } from './national-id/national-id';
+import { PhoneNumber } from './phone-number/phone-number';
 import { CountryStates } from './states/states';
 
 export function PersonalInformationForm({
@@ -85,6 +87,8 @@ export function PersonalInformationForm({
         <Address />
         {children}
         <CountryStates />
+        <CountryStateCities />
+        <PhoneNumber />
         <Button type="submit">Next</Button>
       </form>
     </FormProvider>
