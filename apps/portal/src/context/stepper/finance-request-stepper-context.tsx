@@ -3,48 +3,7 @@
 import { usePathname, useRouter } from 'next/navigation';
 import React, { createContext, useContext, useMemo, useState } from 'react';
 
-// Define the steps for the finance request flow
-export const FINANCE_REQUEST_STEPS = [
-  {
-    id: 'personal-information',
-    title: 'Personal Information',
-    path: '/financial-request/personal-information',
-    fields: [
-      'fullName',
-      'nationalId',
-      'dateOfBirth',
-      'gender',
-      'address',
-      'city',
-      'stateOrEmirate',
-      'country',
-      'phone',
-      'email',
-    ],
-  },
-  {
-    id: 'family-finance-info',
-    title: 'Family & Financial Info',
-    path: '/financial-request/family-finance-info',
-    fields: [
-      'maritalStatus',
-      'numberOfDependents',
-      'employmentStatus',
-      'monthlyIncome',
-      'housingStatus',
-    ],
-  },
-  {
-    id: 'situation-descriptions',
-    title: 'Situation Descriptions',
-    path: '/financial-request/situation-descriptions',
-    fields: [
-      'currentFinancialSituation',
-      'employmentCircumstances',
-      'reasonForApplying',
-    ],
-  },
-];
+import { type UseStepperSteps, useStepperSteps } from './useStepperSteps';
 
 type FinanceRequestStepperContextType = {
   currentStep: number;
@@ -55,7 +14,7 @@ type FinanceRequestStepperContextType = {
   isFirstStep: boolean;
   isLastStep: boolean;
   progress: number;
-  steps: typeof FINANCE_REQUEST_STEPS;
+  steps: UseStepperSteps;
   formSubmitHandlerRef: React.MutableRefObject<(() => Promise<boolean>) | null>;
   registerFormSubmitHandler: (handler: () => Promise<boolean>) => void;
 };
@@ -69,6 +28,7 @@ export const FinanceRequestStepperProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
+  const FINANCE_REQUEST_STEPS = useStepperSteps();
   const router = useRouter();
   const pathname = usePathname();
   const formSubmitHandlerRef = React.useRef<(() => Promise<boolean>) | null>(

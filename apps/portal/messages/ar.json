@@ -1,18 +1,161 @@
 {
-  "HomePage": {
-    "title": "مرحبا بك في الصفحة الرئيسية",
-    "about": "الذهاب إلى صفحة المعلومات"
-  },
   "Metadata": {
     "title": "بوابة الدعم الاجتماعي",
     "description": "بوابة الدعم الاجتماعي للمواطنين"
   },
-  "NotFoundPage": {
-    "title": "الصفحة غير موجودة: (404)"
+  "Pages": {
+    "HomePage": {
+      "title": "مرحبا بك في البوابة",
+      "subTitle": "هذه هي بوابة طلب المساعدة المالية. يرجى اختيار الخيار المناسب أدناه.",
+      "buttonText": "طلب المساعدة المالية"
+    },
+    "NotFoundPage": {
+      "title": "الصفحة غير موجودة: (404)"
+    },
+    "ErrorPage": {
+      "title": "حدث خطأ!",
+      "button": "حاول مرة أخرى"
+    },
+    "RequestSuccess": {
+      "title": "تم تقديم الطلب!",
+      "subTitle": "تم تقديم طلبك بنجاح. سنقوم بمراجعة طلبك والرد عليك قريبًا.",
+      "yourRequestID": "رقم طلبك:",
+      "pleaseSaveYourRequestID": "يرجى حفظ رقم طلبك للرجوع إليه في المستقبل.",
+      "backToHome": "العودة إلى الصفحة الرئيسية"
+    },
+    "PersonalInformation": {
+      "components": {
+        "personalInformationForm": {
+          "FullName": {
+            "label": "الاسم الكامل",
+            "placeholder": "أدخل اسمك الكامل"
+          },
+          "NationalId": {
+            "label": "الهوية الوطنية",
+            "placeholder": "784-YYYY-XXXXXXX-X"
+          },
+          "DateOfBirth": {
+            "label": "تاريخ الميلاد",
+            "placeholder": "DD/MM/YYYY"
+          },
+          "Gender": {
+            "label": "الجنس",
+            "placeholder": "اختر جنسك",
+            "male": "ذكر",
+            "female": "أنثى"
+          },
+          "Address": {
+            "label": "العنوان",
+            "placeholder": "أدخل عنوانك"
+          },
+          "Country": {
+            "label": "الدولة",
+            "placeholder": "اختر دولتك",
+            "placeholderSearch": "ابحث عن دولة...",
+            "noCountryFound": "لم يتم العثور على دولة."
+          },
+          "State": {
+            "label": "الإمارة/المحافظة",
+            "placeholder": "اختر الإمارة/المحافظة",
+            "placeholderSearch": "ابحث عن الإمارة/المحافظة...",
+            "noStateFound": "لم يتم العثور على إمارة/محافظة."
+          },
+          "City": {
+            "label": "المدينة",
+            "placeholder": "أدخل مدينتك",
+            "placeholderSearch": "ابحث عن مدينة...",
+            "noCityFound": "لم يتم العثور على مدينة."
+          },
+          "Phone": {
+            "label": "رقم الهاتف",
+            "placeholder": "+971 XX XXX XXXX أو +971XXXXXXXXX"
+          },
+          "Email": {
+            "label": "البريد الإلكتروني",
+            "placeholder": "user@example.com"
+          }
+        }
+      }
+    },
+    "FamilyFinanceInfo": {
+      "components": {
+        "familyFinanceForm": {
+          "MaritalStatus": {
+            "label": "الحالة الاجتماعية",
+            "placeholder": "اختر حالتك الاجتماعية",
+            "single": "أعزب",
+            "married": "متزوج",
+            "divorced": "مطلق",
+            "widowed": "أرمل"
+          },
+          "NumberOfDependents": {
+            "label": "عدد المعالين"
+          },
+          "EmploymentStatus": {
+            "label": "حالة التوظيف",
+            "placeholder": "اختر حالة التوظيف",
+            "employed": "موظف",
+            "unemployed": "عاطل عن العمل",
+            "student": "طالب",
+            "retired": "متقاعد",
+            "homemaker": "ربة منزل",
+            "other": "أخرى"
+          },
+          "MonthlyIncome": {
+            "label": "الدخل الشهري"
+          },
+          "HousingStatus": {
+            "label": "حالة السكن",
+            "placeholder": "اختر حالة السكن",
+            "own": "ملك",
+            "rent": "إيجار",
+            "living_with_family": "يعيش مع العائلة",
+            "mortgaged": "مرهون",
+            "other": "أخرى"
+          }
+        }
+      }
+    },
+    "SituationDescription": {
+      "components": {
+        "situationDescriptionForm": {
+          "CurrentFinancialSituation": {
+            "label": "1. الوضع المالي الحالي",
+            "placeholder": "صف وضعك المالي الحالي..."
+          },
+          "EmploymentCircumstances": {
+            "label": "2. ظروف العمل",
+            "placeholder": "صف ظروف عملك..."
+          },
+          "ReasonForApplying": {
+            "label": "3. سبب التقديم",
+            "placeholder": "صف سبب تقديمك للطلب..."
+          },
+          "HelpMeWrite": {
+            "buttonLabel": "ساعدني في الكتابة",
+            "buttonGenerating": "جاري التوليد..."
+          },
+          "ReviewAiContentDialog": {
+            "title": "مراجعة المحتوى المولد بالذكاء الاصطناعي",
+            "description": "يرجى مراجعة المحتوى الذي تم إنشاؤه بواسطة الذكاء الاصطناعي وإجراء أي تغييرات ضرورية.",
+            "accept": "قبول",
+            "discard": "تجاهل"
+          }
+        }
+      }
+    }
   },
-  "ErrorPage": {
-    "title": "حدث خطأ!",
-    "button": "حاول مرة أخرى"
+  "FinancialRequestStepper": {
+    "steps": {
+      "personalInformation": "المعلومات الشخصية",
+      "familyFinanceInfo": "المعلومات المالية والأسرية",
+      "situationDescription": "وصف الوضع"
+    }
+  },
+  "StepperNavigation": {
+    "next": "التالي",
+    "previous": "السابق",
+    "submit": "إرسال"
   },
   "feedback": {
     "validation": {

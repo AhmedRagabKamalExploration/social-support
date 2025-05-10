@@ -2,6 +2,7 @@
 
 import { Button } from '@dge/ui-core';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import React from 'react';
 
 import { useFinanceRequestStepper } from '@/context/stepper/finance-request-stepper-context';
@@ -9,22 +10,16 @@ import { useFinanceRequestStepper } from '@/context/stepper/finance-request-step
 type StepperNavigationProps = {
   onNext?: () => Promise<boolean> | boolean;
   onPrevious?: () => void;
-  nextButtonLabel?: string;
-  previousButtonLabel?: string;
   showSubmitOnLastStep?: boolean;
-  submitButtonLabel?: string;
   onSubmit?: () => void;
 };
 
-export const StepperNavigation = ({
+export function StepperNavigation({
   onNext,
   onPrevious,
-  nextButtonLabel = 'Next',
-  previousButtonLabel = 'Previous',
   showSubmitOnLastStep = true,
-  submitButtonLabel = 'Submit',
   onSubmit,
-}: StepperNavigationProps) => {
+}: StepperNavigationProps) {
   const {
     goToNextStep,
     goToPreviousStep,
@@ -32,6 +27,7 @@ export const StepperNavigation = ({
     isLastStep,
     formSubmitHandlerRef,
   } = useFinanceRequestStepper();
+  const t = useTranslations('StepperNavigation');
 
   const handleNext = async () => {
     // First try to use the registered form submit handler from context
@@ -76,18 +72,18 @@ export const StepperNavigation = ({
   return (
     <div className="flex justify-between pt-6">
       <Button variant="outline" onClick={handlePrevious} disabled={isFirstStep}>
-        <ArrowLeft className="mr-2 h-4 w-4" />
-        {previousButtonLabel}
+        {t('previous')}
+        <ArrowLeft className="me-2 size-4 rtl:rotate-180" />
       </Button>
 
       {isLastStep && showSubmitOnLastStep ? (
-        <Button onClick={handleSubmit}>{submitButtonLabel}</Button>
+        <Button onClick={handleSubmit}>{t('submit')}</Button>
       ) : (
-        <Button onClick={handleNext}>
-          {nextButtonLabel}
-          <ArrowRight className="ml-2 h-4 w-4" />
+        <Button className="flex" onClick={handleNext}>
+          <ArrowRight className="ms-2 size-4 rtl:rotate-180" />
+          {t('next')}
         </Button>
       )}
     </div>
   );
-};
+}

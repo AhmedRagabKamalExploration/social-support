@@ -145,6 +145,18 @@
       }
     }
   },
+  "FinancialRequestStepper": {
+    "steps": {
+      "personalInformation": "Personal Information",
+      "familyFinanceInfo": "Family & Financial Info",
+      "situationDescription": "Situation Description"
+    }
+  },
+  "StepperNavigation": {
+    "next": "Next",
+    "previous": "Previous",
+    "submit": "Submit"
+  },
   "feedback": {
     "validation": {
       "required": "This field is required.",
