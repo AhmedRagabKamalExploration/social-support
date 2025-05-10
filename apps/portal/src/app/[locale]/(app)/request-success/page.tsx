@@ -1,15 +1,16 @@
-'use client';
-
 import { Button, Card, CardContent, Headline, Paragraph } from '@dge/ui-core';
 import { CheckCircle } from 'lucide-react';
-import { useSearchParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 import { Link } from '@/i18n/navigation';
 
-export default function RequestSuccessPage() {
-  const searchParams = useSearchParams();
-  const requestId = searchParams.get('requestId') || '';
-  const requestType = searchParams.get('type') || 'financial';
+export default async function RequestSuccessPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ requestId: string }>;
+}) {
+  const { requestId } = await searchParams;
+  const t = useTranslations('Pages.RequestSuccess');
 
   return (
     <div className="container py-8">
@@ -19,27 +20,25 @@ export default function RequestSuccessPage() {
             <CheckCircle className="h-24 w-24 text-green-500" />
           </div>
 
-          <Headline variant="h1">Application Submitted!</Headline>
+          <Headline variant="h1">{t('title')}</Headline>
 
-          <Paragraph className="text-lg">
-            {requestType === 'financial'
-              ? 'Your financial request has been successfully submitted. We will review your application and get back to you soon.'
-              : 'Your request has been successfully submitted. We will review your application and get back to you soon.'}
-          </Paragraph>
+          <Paragraph className="text-lg">{t('subTitle')}</Paragraph>
 
           {requestId && (
             <div className="rounded-md bg-gray-100 p-4">
-              <Paragraph className="font-medium">Your Request ID:</Paragraph>
+              <Paragraph className="font-medium">
+                {t('yourRequestID')}
+              </Paragraph>
               <Paragraph className="text-xl font-bold">{requestId}</Paragraph>
               <Paragraph className="mt-2 text-sm text-gray-500">
-                Please save this ID for future reference.
+                {t('pleaseSaveYourRequestID')}
               </Paragraph>
             </div>
           )}
 
           <div className="pt-4">
             <Button>
-              <Link href="/">Back to Home</Link>
+              <Link href="/">{t('backToHome')}</Link>
             </Button>
           </div>
         </CardContent>

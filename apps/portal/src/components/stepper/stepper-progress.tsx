@@ -15,7 +15,7 @@ export const StepperProgress = () => {
 
       <div className="flex justify-between">
         {steps.map((step, index) => (
-          <div key={step.id} className="flex flex-col items-center">
+          <div key={step.id} className="flex flex-col items-center text-center">
             <button
               onClick={() => goToStep(index)}
               className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium ${

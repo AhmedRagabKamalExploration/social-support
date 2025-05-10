@@ -1,4 +1,3 @@
-import { Headline } from '@dge/ui-core';
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
@@ -12,7 +11,6 @@ export default async function PersonalInformationPage() {
   const countriesPromise = getCountries();
   return (
     <div className="flex h-full w-full flex-col">
-      <Headline variant="h3">Personal Information</Headline>
       <PersonalInformationForm>
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <Suspense fallback={<SpinnerLoading />}>

@@ -8,21 +8,25 @@ import {
   FormMessage,
   Input,
 } from '@dge/ui-core';
+import { useTranslations } from 'next-intl';
 import { useFormContext } from 'react-hook-form';
 
 import type { PersonalInformationFormData } from '@/features/financial-request/schema';
 
 export function NationalId() {
   const { control } = useFormContext<PersonalInformationFormData>();
+  const t = useTranslations(
+    'Pages.PersonalInformation.components.personalInformationForm.NationalId',
+  );
   return (
     <FormField
       control={control}
       name="nationalId"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>National ID</FormLabel>
+          <FormLabel>{t('label')}</FormLabel>
           <FormControl>
-            <Input placeholder="784-YYYY-XXXXXXX-X" {...field} />
+            <Input placeholder={t('placeholder')} {...field} />
           </FormControl>
           <FormMessage />
         </FormItem>

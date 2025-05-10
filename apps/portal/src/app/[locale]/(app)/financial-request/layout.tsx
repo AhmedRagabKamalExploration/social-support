@@ -1,7 +1,5 @@
-'use client';
-
 import { Card, CardContent } from '@dge/ui-core';
-import React, { useRef } from 'react';
+import type { ReactNode } from 'react';
 
 import { StepperNavigation } from '@/components/stepper/stepper-navigation';
 import { StepperProgress } from '@/components/stepper/stepper-progress';
@@ -10,7 +8,7 @@ import { FinanceRequestStepperProvider } from '@/context/stepper/finance-request
 export default function FinancialRequestLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   return (
     <FinanceRequestStepperProvider>

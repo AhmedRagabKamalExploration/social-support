@@ -19,6 +19,7 @@ import {
   cn,
 } from '@dge/ui-core';
 import { Check, ChevronsUpDown } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useFormContext } from 'react-hook-form';
 
 import type { Country } from '@/types/country.type';
@@ -27,6 +28,9 @@ import type { PersonalInformationFormData } from '../../schema';
 
 export function Countries({ countries }: { countries: Country[] }) {
   const { control, setValue } = useFormContext<PersonalInformationFormData>();
+  const t = useTranslations(
+    'Pages.PersonalInformation.components.personalInformationForm.Country',
+  );
 
   return (
     <FormField
@@ -34,7 +38,7 @@ export function Countries({ countries }: { countries: Country[] }) {
       name="country"
       render={({ field }) => (
         <FormItem className="flex flex-col">
-          <FormLabel>Country</FormLabel>
+          <FormLabel>{t('label')}</FormLabel>
           <Popover>
             <PopoverTrigger asChild>
               <FormControl>
@@ -54,7 +58,7 @@ export function Countries({ countries }: { countries: Country[] }) {
                   {field.value
                     ? countries.find((country) => country.iso2 === field.value)
                         ?.name
-                    : 'Select country'}
+                    : t('placeholder')}
 
                   <ChevronsUpDown className="opacity-50" />
                 </ShadButton>
@@ -62,9 +66,12 @@ export function Countries({ countries }: { countries: Country[] }) {
             </PopoverTrigger>
             <PopoverContent className="w-full p-0">
               <Command>
-                <CommandInput placeholder="Search country..." className="h-9" />
+                <CommandInput
+                  placeholder={t('placeholderSearch')}
+                  className="h-9"
+                />
                 <CommandList>
-                  <CommandEmpty>No country found.</CommandEmpty>
+                  <CommandEmpty>{t('noCountryFound')}</CommandEmpty>
                   <CommandGroup>
                     {countries.map(({ iso2, name, emoji }) => (
                       <CommandItem

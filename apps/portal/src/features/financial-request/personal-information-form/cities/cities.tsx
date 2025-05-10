@@ -19,6 +19,7 @@ import {
   cn,
 } from '@dge/ui-core';
 import { Check, ChevronsUpDown } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useFormContext } from 'react-hook-form';
@@ -35,6 +36,9 @@ export function CountryStateCities() {
   const [cities, setCities] = useState<City[]>([]);
   // TODO: handle loading state
   const [isLoading, setIsLoading] = useState(false);
+  const t = useTranslations(
+    'Pages.PersonalInformation.components.personalInformationForm.City',
+  );
 
   const countryIso2 = watch('country');
   const stateCode = watch('stateOrEmirate');
@@ -64,7 +68,7 @@ export function CountryStateCities() {
         name="city"
         render={({ field }) => (
           <FormItem className="flex flex-col">
-            <FormLabel>City</FormLabel>
+            <FormLabel>{t('label')}</FormLabel>
             <Popover>
               <PopoverTrigger asChild>
                 <FormControl>
@@ -78,7 +82,7 @@ export function CountryStateCities() {
                   >
                     {field.value
                       ? cities.find((city) => city.name === field.value)?.name
-                      : 'Select state'}
+                      : t('placeholder')}
 
                     <ChevronsUpDown className="opacity-50" />
                   </ShadButton>
@@ -86,9 +90,12 @@ export function CountryStateCities() {
               </PopoverTrigger>
               <PopoverContent className="w-full p-0">
                 <Command>
-                  <CommandInput placeholder="Search state..." className="h-9" />
+                  <CommandInput
+                    placeholder={t('placeholderSearch')}
+                    className="h-9"
+                  />
                   <CommandList>
-                    <CommandEmpty>No state found.</CommandEmpty>
+                    <CommandEmpty>{t('noCityFound')}</CommandEmpty>
                     <CommandGroup>
                       {cities.map(({ name }) => (
                         <CommandItem

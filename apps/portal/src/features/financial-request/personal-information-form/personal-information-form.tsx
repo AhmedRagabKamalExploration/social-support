@@ -1,6 +1,5 @@
 'use client';
 
-import { Button } from '@dge/ui-core';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import React, { useEffect } from 'react';

@@ -15,19 +15,23 @@ import {
 } from '@dge/ui-core';
 import { format, parseISO } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useFormContext } from 'react-hook-form';
 
 import type { PersonalInformationFormData } from '@/features/financial-request/schema';
 
 export function DateOfBirth() {
   const { control } = useFormContext<PersonalInformationFormData>();
+  const t = useTranslations(
+    'Pages.PersonalInformation.components.personalInformationForm.DateOfBirth',
+  );
   return (
     <FormField
       control={control}
       name="dateOfBirth"
       render={({ field }) => (
         <FormItem className="flex flex-col">
-          <FormLabel>Date of birth</FormLabel>
+          <FormLabel>{t('label')}</FormLabel>
           <Popover>
             <PopoverTrigger asChild>
               <FormControl>
@@ -41,7 +45,7 @@ export function DateOfBirth() {
                   {field.value ? (
                     format(parseISO(field.value), 'PPP')
                   ) : (
-                    <span>Pick a date</span>
+                    <span>{t('placeholder')}</span>
                   )}
                   <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                 </ShadButton>

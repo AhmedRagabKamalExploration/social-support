@@ -19,6 +19,7 @@ import {
   cn,
 } from '@dge/ui-core';
 import { Check, ChevronsUpDown } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useFormContext } from 'react-hook-form';
@@ -35,6 +36,9 @@ export function CountryStates() {
   const [states, setStates] = useState<State[]>([]);
   // TODO: handle loading state
   const [isLoading, setIsLoading] = useState(false);
+  const t = useTranslations(
+    'Pages.PersonalInformation.components.personalInformationForm.State',
+  );
 
   const countryIso2 = watch('country');
 
@@ -63,7 +67,7 @@ export function CountryStates() {
         name="stateOrEmirate"
         render={({ field }) => (
           <FormItem className="flex flex-col">
-            <FormLabel>State</FormLabel>
+            <FormLabel>{t('label')}</FormLabel>
             <Popover>
               <PopoverTrigger asChild>
                 <FormControl>
@@ -78,7 +82,7 @@ export function CountryStates() {
                     {field.value
                       ? states.find((state) => state.state_code === field.value)
                           ?.name
-                      : 'Select state'}
+                      : t('placeholder')}
 
                     <ChevronsUpDown className="opacity-50" />
                   </ShadButton>
@@ -86,9 +90,12 @@ export function CountryStates() {
               </PopoverTrigger>
               <PopoverContent className="w-full p-0">
                 <Command>
-                  <CommandInput placeholder="Search state..." className="h-9" />
+                  <CommandInput
+                    placeholder={t('placeholderSearch')}
+                    className="h-9"
+                  />
                   <CommandList>
-                    <CommandEmpty>No state found.</CommandEmpty>
+                    <CommandEmpty>{t('noStateFound')}</CommandEmpty>
                     <CommandGroup>
                       {states.map(({ state_code, name }) => (
                         <CommandItem

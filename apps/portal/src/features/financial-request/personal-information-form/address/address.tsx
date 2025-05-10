@@ -8,21 +8,25 @@ import {
   FormMessage,
   Input,
 } from '@dge/ui-core';
+import { useTranslations } from 'next-intl';
 import { useFormContext } from 'react-hook-form';
 
 import type { PersonalInformationFormData } from '@/features/financial-request/schema';
 
 export function Address() {
   const { control } = useFormContext<PersonalInformationFormData>();
+  const t = useTranslations(
+    'Pages.PersonalInformation.components.personalInformationForm.Address',
+  );
   return (
     <FormField
       control={control}
       name="address"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Address</FormLabel>
+          <FormLabel>{t('label')}</FormLabel>
           <FormControl>
-            <Input placeholder="Enter your address" {...field} />
+            <Input placeholder={t('placeholder')} {...field} />
           </FormControl>
           <FormMessage />
         </FormItem>

@@ -1,18 +1,83 @@
 {
-  "HomePage": {
-    "title": "Hello world!",
-    "about": "Go to the about page"
-  },
   "Metadata": {
     "title": "Social Support Portal",
     "description": "a government social support portal"
   },
-  "NotFoundPage": {
-    "title": "Page not found: (404)"
-  },
-  "ErrorPage": {
-    "title": "Something went wrong!",
-    "button": "Try again"
+  "Pages": {
+    "HomePage": {
+      "title": "Welcome to the portal",
+      "subTitle": "This is the portal for the financial request. Please select the appropriate option below.",
+      "buttonText": "Financial Request"
+    },
+    "NotFoundPage": {
+      "title": "Page not found: (404)"
+    },
+    "ErrorPage": {
+      "title": "Something went wrong!",
+      "button": "Try again"
+    },
+    "RequestSuccess": {
+      "title": "Application Submitted!",
+      "subTitle": "Your request has been successfully submitted. We will review your application and get back to you soon.",
+      "yourRequestID": "Your Request ID:",
+      "pleaseSaveYourRequestID": "Please save your request ID for future reference.",
+      "backToHome": "Back to Home"
+    },
+    "PersonalInformation": {
+      "title": "Personal Information",
+      "components": {
+        "personalInformationForm": {
+          "FullName": {
+            "label": "Full name",
+            "placeholder": "Enter your full name"
+          },
+          "NationalId": {
+            "label": "National ID",
+            "placeholder": "784-YYYY-XXXXXXX-X"
+          },
+          "DateOfBirth": {
+            "label": "Date of Birth",
+            "placeholder": "DD/MM/YYYY"
+          },
+          "Gender": {
+            "label": "Gender",
+            "placeholder": "Select your Gender",
+            "male": "Male",
+            "female": "Female"
+          },
+          "Address": {
+            "label": "Address",
+            "placeholder": "Enter your Address"
+          },
+          "Country": {
+            "label": "Country",
+            "placeholder": "Select your Country",
+            "placeholderSearch": "Search country...",
+            "noCountryFound": "No country found."
+          },
+          "State": {
+            "label": "State",
+            "placeholder": "Select your State",
+            "placeholderSearch": "Search state...",
+            "noStateFound": "No state found."
+          },
+          "City": {
+            "label": "City",
+            "placeholder": "Enter your City",
+            "placeholderSearch": "Search city...",
+            "noCityFound": "No city found."
+          },
+          "Phone": {
+            "label": "Phone",
+            "placeholder": "+971 XX XXX XXXX or +971XXXXXXXXX"
+          },
+          "Email": {
+            "label": "Email",
+            "placeholder": "user@example.com"
+          }
+        }
+      }
+    }
   },
   "feedback": {
     "validation": {

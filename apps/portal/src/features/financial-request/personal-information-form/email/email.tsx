@@ -8,21 +8,25 @@ import {
   FormMessage,
   Input,
 } from '@dge/ui-core';
+import { useTranslations } from 'next-intl';
 import { useFormContext } from 'react-hook-form';
 
 import type { PersonalInformationFormData } from '@/features/financial-request/schema';
 
 export function Email() {
   const { control } = useFormContext<PersonalInformationFormData>();
+  const t = useTranslations(
+    'Pages.PersonalInformation.components.personalInformationForm.Email',
+  );
   return (
     <FormField
       control={control}
       name="email"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Email</FormLabel>
+          <FormLabel>{t('label')}</FormLabel>
           <FormControl>
-            <Input placeholder="user@example.com" {...field} />
+            <Input placeholder={t('placeholder')} {...field} />
           </FormControl>
           <FormMessage />
         </FormItem>
