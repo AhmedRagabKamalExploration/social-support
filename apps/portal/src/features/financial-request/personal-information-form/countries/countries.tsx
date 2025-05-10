@@ -25,20 +25,9 @@ import type { Country } from '@/types/country.type';
 
 import type { PersonalInformationFormData } from '../../schema';
 
-const languages = [
-  { label: 'English', value: 'en' },
-  { label: 'French', value: 'fr' },
-  { label: 'German', value: 'de' },
-  { label: 'Spanish', value: 'es' },
-  { label: 'Portuguese', value: 'pt' },
-  { label: 'Russian', value: 'ru' },
-  { label: 'Japanese', value: 'ja' },
-  { label: 'Korean', value: 'ko' },
-  { label: 'Chinese', value: 'zh' },
-] as const;
-
 export function Countries({ countries }: { countries: Country[] }) {
   const { control, setValue } = useFormContext<PersonalInformationFormData>();
+
   return (
     <FormField
       control={control}
@@ -53,42 +42,44 @@ export function Countries({ countries }: { countries: Country[] }) {
                   variant="outline"
                   role="combobox"
                   className={cn(
-                    'w-full justify-between',
+                    'flex w-full items-center justify-between gap-2',
                     !field.value && 'text-muted-foreground',
                   )}
                 >
                   {field.value
-                    ? countries.find((country) => country.name === field.value)
+                    ? countries.find((country) => country.iso2 === field.value)
+                        ?.emoji
+                    : ''}
+
+                  {field.value
+                    ? countries.find((country) => country.iso2 === field.value)
                         ?.name
                     : 'Select country'}
+
                   <ChevronsUpDown className="opacity-50" />
                 </ShadButton>
               </FormControl>
             </PopoverTrigger>
             <PopoverContent className="w-full p-0">
               <Command>
-                <CommandInput
-                  placeholder="Search framework..."
-                  className="h-9"
-                />
+                <CommandInput placeholder="Search country..." className="h-9" />
                 <CommandList>
-                  <CommandEmpty>No framework found.</CommandEmpty>
+                  <CommandEmpty>No country found.</CommandEmpty>
                   <CommandGroup>
-                    {countries.map((country) => (
+                    {countries.map(({ iso2, name, emoji }) => (
                       <CommandItem
-                        value={country.name}
-                        key={country.name}
+                        value={iso2}
+                        key={name}
                         onSelect={() => {
-                          setValue('country', country.name);
+                          setValue('country', iso2);
                         }}
                       >
-                        {country.name}
+                        <span className="me-0.5">{emoji}</span>
+                        {name}
                         <Check
                           className={cn(
                             'ml-auto',
-                            country.name === field.value
-                              ? 'opacity-100'
-                              : 'opacity-0',
+                            iso2 === field.value ? 'opacity-100' : 'opacity-0',
                           )}
                         />
                       </CommandItem>

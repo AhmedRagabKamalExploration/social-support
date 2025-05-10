@@ -92,7 +92,7 @@ export const personalInformationFormSchema = (t: any) => {
         },
       ),
 
-    gender: z.enum(['Male', 'Female'], {
+    gender: z.enum(['male', 'female'], {
       message: t('validation.gender.invalid'),
     }),
 

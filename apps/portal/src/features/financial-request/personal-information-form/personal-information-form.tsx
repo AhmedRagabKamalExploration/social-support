@@ -15,6 +15,7 @@ import { DateOfBirth } from './date-of-birth/date-of-birth';
 import { FullName } from './fullname/fullname';
 import { Gender } from './gender/gender';
 import { NationalId } from './national-id/national-id';
+import { CountryStates } from './states/states';
 
 export function PersonalInformationForm({
   children,
@@ -83,6 +84,7 @@ export function PersonalInformationForm({
         <Gender />
         <Address />
         {children}
+        <CountryStates />
         <Button type="submit">Next</Button>
       </form>
     </FormProvider>
