@@ -3,11 +3,13 @@
 import { Button } from '@dge/ui-core';
 import { Sparkles } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useActionState } from 'react';
-import { startTransition } from 'react';
+import { useActionState, useCallback } from 'react';
+import { startTransition, useState } from 'react';
 import { toast } from 'sonner';
 
 import { helpMeWriteAction } from '@/actions/help-me-write.action';
+
+import { ReviewAiContentDialog } from '../review-ai-content-dialog/review-ai-content-dialog';
 
 type HelpMeWriteProps = {
   prompt: string;
@@ -16,11 +18,15 @@ type HelpMeWriteProps = {
 
 export default function HelpMeWrite({ prompt, onChange }: HelpMeWriteProps) {
   const t = useTranslations('HelpMeWrite');
+  const [open, setOpen] = useState(false);
+  const [editedContent, setEditedContent] = useState('');
+
   const [_state, formAction, isPending] = useActionState(async () => {
     const result = await helpMeWriteAction(prompt);
-    console.log({ result });
+
     if (result.success && result.data) {
-      onChange(result.data);
+      setEditedContent(result.data);
+      setOpen(true);
     } else {
       // TODO: handle error codes mapping correctly with typed error codes
       toast.error(
@@ -32,22 +38,41 @@ export default function HelpMeWrite({ prompt, onChange }: HelpMeWriteProps) {
     return result;
   }, null);
 
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
     startTransition(() => {
       formAction();
     });
-  };
+  }, [formAction]);
+
+  const handleAccept = useCallback(() => {
+    onChange(editedContent);
+    setOpen(false);
+  }, [editedContent, onChange]);
+
+  const handleDiscard = useCallback(() => {
+    setOpen(false);
+  }, [setOpen]);
 
   return (
-    <Button
-      onClick={handleClick}
-      variant="outline"
-      size="sm"
-      type="button"
-      disabled={isPending}
-    >
-      <Sparkles className="mr-2 size-4" />
-      {isPending ? 'Generating...' : 'Help Me Write'}
-    </Button>
+    <>
+      <Button
+        onClick={handleClick}
+        variant="outline"
+        size="sm"
+        type="button"
+        disabled={isPending}
+      >
+        <Sparkles className="mr-2 size-4" />
+        {isPending ? 'Generating...' : 'Help Me Write'}
+      </Button>
+      <ReviewAiContentDialog
+        open={open}
+        setOpen={setOpen}
+        editedContent={editedContent}
+        setEditedContent={setEditedContent}
+        handleAccept={handleAccept}
+        handleDiscard={handleDiscard}
+      />
+    </>
   );
 }

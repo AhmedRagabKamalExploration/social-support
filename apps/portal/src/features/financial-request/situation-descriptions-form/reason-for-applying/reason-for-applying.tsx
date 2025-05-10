@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  Button,
   FormControl,
   FormField,
   FormItem,
@@ -9,13 +8,22 @@ import {
   FormMessage,
   Textarea,
 } from '@dge/ui-core';
-import { Sparkles } from 'lucide-react';
 import { useFormContext } from 'react-hook-form';
 
 import type { SituationDescriptionsFormData } from '@/features/financial-request/schema';
 
+import HelpMeWrite from '../help-me-write/help-me-write';
+
 export function ReasonForApplying() {
   const { control } = useFormContext<SituationDescriptionsFormData>();
+
+  const formData = {
+    financialNeed: 'emergency medical expenses',
+    requestAmount: 5000,
+  };
+
+  const prompt = `I am applying for financial assistance of $${formData.requestAmount} to help with ${formData.financialNeed}. Help me explain my reason for applying.`;
+
   return (
     <FormField
       control={control}
@@ -24,10 +32,7 @@ export function ReasonForApplying() {
         <FormItem>
           <div className="flex items-center justify-between">
             <FormLabel>3. Reason for Applying</FormLabel>
-            <Button variant="outline" size="sm" type="button">
-              <Sparkles className="mr-2 size-4" />
-              Help Me Write
-            </Button>
+            <HelpMeWrite prompt={prompt} onChange={field.onChange} />
           </div>
           <FormControl>
             <Textarea

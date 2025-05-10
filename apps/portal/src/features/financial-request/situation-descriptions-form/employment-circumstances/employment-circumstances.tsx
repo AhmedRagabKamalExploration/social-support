@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  Button,
   FormControl,
   FormField,
   FormItem,
@@ -9,13 +8,22 @@ import {
   FormMessage,
   Textarea,
 } from '@dge/ui-core';
-import { Sparkles } from 'lucide-react';
 import { useFormContext } from 'react-hook-form';
 
 import type { SituationDescriptionsFormData } from '@/features/financial-request/schema';
 
+import HelpMeWrite from '../help-me-write/help-me-write';
+
 export function EmploymentCircumstances() {
   const { control } = useFormContext<SituationDescriptionsFormData>();
+
+  const formData = {
+    occupation: 'software developer',
+    yearsOfExperience: 5,
+  };
+
+  const prompt = `I work as a ${formData.occupation} with ${formData.yearsOfExperience} years of experience. Help me describe my employment circumstances.`;
+
   return (
     <FormField
       control={control}
@@ -24,10 +32,7 @@ export function EmploymentCircumstances() {
         <FormItem>
           <div className="flex items-center justify-between">
             <FormLabel>2. Employment Circumstances</FormLabel>
-            <Button variant="outline" size="sm" type="button">
-              <Sparkles className="mr-2 size-4" />
-              Help Me Write
-            </Button>
+            <HelpMeWrite prompt={prompt} onChange={field.onChange} />
           </div>
           <FormControl>
             <Textarea
