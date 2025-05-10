@@ -167,11 +167,11 @@ export type PersonalInformationFormData = z.infer<
 // --- Step 2: Family & Financial Info Schema ---
 export const familyAndFinancialInfoFormSchema = (t: any) =>
   z.object({
-    maritalStatus: z.enum(['Single', 'Married', 'Divorced', 'Widowed'], {
+    maritalStatus: z.enum(['single', 'married', 'divorced', 'widowed'], {
       message: t('validation.maritalStatus.invalid'),
     }),
 
-    numberOfDependents: z
+    numberOfDependents: z.coerce
       .number({
         required_error: t('validation.dependents.required'),
         invalid_type_error: t('validation.dependents.mustBeNumber'),
@@ -181,13 +181,13 @@ export const familyAndFinancialInfoFormSchema = (t: any) =>
       .max(20, { message: t('validation.dependents.tooHigh') }),
 
     employmentStatus: z.enum(
-      ['Employed', 'Unemployed', 'Student', 'Retired', 'Homemaker', 'Other'],
+      ['employed', 'unemployed', 'student', 'retired', 'homemaker', 'other'],
       {
         message: t('validation.employmentStatus.invalid'),
       },
     ),
 
-    monthlyIncome: z
+    monthlyIncome: z.coerce
       .number({
         required_error: t('validation.monthlyIncome.required'),
         invalid_type_error: t('validation.monthlyIncome.mustBeNumber'),
@@ -196,7 +196,7 @@ export const familyAndFinancialInfoFormSchema = (t: any) =>
       .max(10000000, { message: t('validation.monthlyIncome.tooHigh') }),
 
     housingStatus: z.enum(
-      ['Own', 'Rent', 'Living with Family', 'Mortgaged', 'Other'],
+      ['own', 'rent', 'living_with_family', 'mortgaged', 'other'],
       {
         message: t('validation.housingStatus.invalid'),
       },

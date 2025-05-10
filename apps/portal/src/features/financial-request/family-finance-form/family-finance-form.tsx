@@ -5,30 +5,20 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { useRouter } from '@/i18n/navigation';
-
 import {
-  type PersonalInformationFormData,
-  personalInformationFormSchema,
+  type FamilyAndFinancialInfoFormData,
+  familyAndFinancialInfoFormSchema,
 } from '../schema';
 
-import { Address } from './address/address';
-import { CountryStateCities } from './cities/cities';
-import { DateOfBirth } from './date-of-birth/date-of-birth';
-import { Email } from './email/email';
-import { FullName } from './fullname/fullname';
-import { Gender } from './gender/gender';
-import { NationalId } from './national-id/national-id';
-import { PhoneNumber } from './phone-number/phone-number';
-import { CountryStates } from './states/states';
+import { EmploymentStatus } from './employment-status/employment-status';
+import { HousingStatus } from './housing-status/housing-status';
+import { MaritalStatus } from './marital-status/marital-status';
+import { MonthlyIncome } from './monthly-income/monthly-income';
+import { NumberOfDependents } from './number-of-dependents/number-of-dependents';
 
-export function PersonalInformationForm({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export function FamilyFinanceForm() {
   const t = useTranslations('feedback');
-  const router = useRouter();
+
   // Create a completely different adapter that manually handles placeholders
   const tAdapter = (key: string, values?: Record<string, unknown>) => {
     try {
@@ -57,25 +47,19 @@ export function PersonalInformationForm({
     }
   };
 
-  const form = useForm<PersonalInformationFormData>({
-    resolver: zodResolver(personalInformationFormSchema(tAdapter)),
+  const form = useForm<FamilyAndFinancialInfoFormData>({
+    resolver: zodResolver(familyAndFinancialInfoFormSchema(tAdapter)),
     defaultValues: {
-      fullName: '',
-      nationalId: '',
-      dateOfBirth: '',
-      gender: undefined,
-      address: '',
-      city: '',
-      stateOrEmirate: '',
-      country: '',
-      phone: '',
-      email: '',
+      maritalStatus: undefined,
+      numberOfDependents: 0,
+      employmentStatus: undefined,
+      monthlyIncome: 0,
+      housingStatus: undefined,
     },
   });
 
-  const onSubmit = (data: PersonalInformationFormData) => {
+  const onSubmit = (data: FamilyAndFinancialInfoFormData) => {
     console.log(data);
-    router.push('/financial-request/family-finance-info');
   };
 
   return (
@@ -84,16 +68,11 @@ export function PersonalInformationForm({
         onSubmit={form.handleSubmit(onSubmit)}
         className="grid grid-cols-2 gap-4"
       >
-        <FullName />
-        <NationalId />
-        <DateOfBirth />
-        <Gender />
-        <Address />
-        {children}
-        <CountryStates />
-        <CountryStateCities />
-        <PhoneNumber />
-        <Email />
+        <MaritalStatus />
+        <NumberOfDependents />
+        <EmploymentStatus />
+        <MonthlyIncome />
+        <HousingStatus />
         <Button type="submit">Next</Button>
       </form>
     </FormProvider>
