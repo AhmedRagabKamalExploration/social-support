@@ -38,6 +38,9 @@ export function SituationDescriptionsForm() {
   const getCompleteFormData = useFinancialRequestStore(
     (state) => state.getCompleteFormData,
   );
+  const resetFormData = useFinancialRequestStore(
+    (state) => state.resetFormData,
+  );
   const savedData = useFinancialRequestStore(
     (state) => state.situationDescriptions,
   );
@@ -116,13 +119,16 @@ export function SituationDescriptionsForm() {
             description: `Your request ID is ${result.requestId}`,
           });
 
+          // Reset form data before redirecting
+          resetFormData();
+
           // Navigate to success page with the request ID
           if (result.requestId) {
             router.push(
-              `/financial-request/success?requestId=${result.requestId}`,
+              `/request-success?requestId=${result.requestId}&type=financial`,
             );
           } else {
-            router.push('/financial-request/success');
+            router.push('/request-success?type=financial');
           }
 
           // Log the success

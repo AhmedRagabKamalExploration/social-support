@@ -12,10 +12,6 @@ export default function FinancialRequestLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // This works in client components
-  // The child forms will handle validation and submission
-  // through their own onSubmit handlers
-
   return (
     <FinanceRequestStepperProvider>
       <Card className="my-4 flex-1">
