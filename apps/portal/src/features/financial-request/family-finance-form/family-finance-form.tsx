@@ -3,9 +3,10 @@
 import { Button } from '@dge/ui-core';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
+import React, { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { useRouter } from '@/i18n/navigation';
+import { useFinanceRequestStepper } from '@/context/stepper/finance-request-stepper-context';
 import { useFinancialRequestStore } from '@/store/financial-request.store';
 
 import {
@@ -21,7 +22,7 @@ import { NumberOfDependents } from './number-of-dependents/number-of-dependents'
 
 export function FamilyFinanceForm() {
   const t = useTranslations('feedback');
-  const router = useRouter();
+  const { registerFormSubmitHandler } = useFinanceRequestStepper();
   const setFamilyFinanceInfo = useFinancialRequestStore(
     (state) => state.setFamilyFinanceInfo,
   );
@@ -68,25 +69,46 @@ export function FamilyFinanceForm() {
     },
   });
 
-  const onSubmit = (data: FamilyAndFinancialInfoFormData) => {
-    console.log(data);
-    // Save data to Zustand store
-    setFamilyFinanceInfo(data);
-    router.push('/financial-request/situation-descriptions');
+  // This function will be called by the stepper navigation when Next is clicked
+  const handleSubmit = async () => {
+    const isValid = await form.trigger();
+
+    if (isValid) {
+      const data = form.getValues();
+      setFamilyFinanceInfo(data);
+      return true;
+    }
+
+    return false;
   };
+
+  // Register the form submit handler with the stepper context
+  useEffect(() => {
+    registerFormSubmitHandler(handleSubmit);
+  }, [registerFormSubmitHandler]);
+
+  // Save form data when page is about to unload
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      const data = form.getValues();
+      setFamilyFinanceInfo(data);
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [form, setFamilyFinanceInfo]);
 
   return (
     <FormProvider {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="grid grid-cols-2 gap-4"
-      >
+      <form className="grid grid-cols-2 gap-4">
         <MaritalStatus />
         <NumberOfDependents />
         <EmploymentStatus />
         <MonthlyIncome />
         <HousingStatus />
-        <Button type="submit">Next</Button>
       </form>
     </FormProvider>
   );

@@ -3,10 +3,11 @@
 import { Button } from '@dge/ui-core';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
+import { useFinanceRequestStepper } from '@/context/stepper/finance-request-stepper-context';
 import {
   type SituationDescriptionsFormData,
   situationDescriptionsFormSchema,
@@ -29,15 +30,13 @@ export function SituationDescriptionsForm() {
   const t = useTranslations('feedback');
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { isLastStep, registerFormSubmitHandler } = useFinanceRequestStepper();
 
   const setSituationDescriptions = useFinancialRequestStore(
     (state) => state.setSituationDescriptions,
   );
   const getCompleteFormData = useFinancialRequestStore(
     (state) => state.getCompleteFormData,
-  );
-  const resetFormData = useFinancialRequestStore(
-    (state) => state.resetFormData,
   );
   const savedData = useFinancialRequestStore(
     (state) => state.situationDescriptions,
@@ -80,67 +79,103 @@ export function SituationDescriptionsForm() {
     },
   });
 
-  const onSubmit = async (data: SituationDescriptionsFormData) => {
-    try {
-      setIsSubmitting(true);
+  // This function handles both validation and (if last step) submission
+  const handleSubmit = async () => {
+    const isValid = await form.trigger();
 
-      // Save data to Zustand store
+    if (isValid) {
+      const data = form.getValues();
       setSituationDescriptions(data);
 
-      // Get complete form data
-      const completeFormData = getCompleteFormData();
-      console.log('Complete form data:', completeFormData);
+      // If it's the last step, proceed with API submission
+      if (isLastStep && !isSubmitting) {
+        try {
+          setIsSubmitting(true);
 
-      // Submit the complete form data to the backend API
-      const response = await fetch('/api/financial-request', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(completeFormData),
-      });
+          // Get complete form data
+          const completeFormData = getCompleteFormData();
+          console.log('Complete form data:', completeFormData);
 
-      const result = (await response.json()) as FinancialRequestResponse;
+          // Submit the complete form data to the backend API
+          const response = await fetch('/api/financial-request', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(completeFormData),
+          });
 
-      if (!response.ok) {
-        throw new Error(result.message || 'Failed to submit request');
+          const result = (await response.json()) as FinancialRequestResponse;
+
+          if (!response.ok) {
+            throw new Error(result.message || 'Failed to submit request');
+          }
+
+          // Show success message
+          toast.success('Application submitted successfully!', {
+            description: `Your request ID is ${result.requestId}`,
+          });
+
+          // Navigate to success page with the request ID
+          if (result.requestId) {
+            router.push(
+              `/financial-request/success?requestId=${result.requestId}`,
+            );
+          } else {
+            router.push('/financial-request/success');
+          }
+
+          // Log the success
+          console.log('Form submitted successfully!', result);
+        } catch (error: any) {
+          console.error('Error submitting form:', error);
+          toast.error('Failed to submit application', {
+            description: error.message || 'Please try again later',
+          });
+          return false;
+        } finally {
+          setIsSubmitting(false);
+        }
       }
 
-      // Show success message
-      toast.success('Application submitted successfully!', {
-        description: `Your request ID is ${result.requestId}`,
-      });
-
-      // Navigate to success page with the request ID
-      if (result.requestId) {
-        router.push(`/financial-request/success?requestId=${result.requestId}`);
-      } else {
-        router.push('/financial-request/success');
-      }
-
-      // Log the success
-      console.log('Form submitted successfully!', result);
-    } catch (error: any) {
-      console.error('Error submitting form:', error);
-      toast.error('Failed to submit application', {
-        description: error.message || 'Please try again later',
-      });
-    } finally {
-      setIsSubmitting(false);
+      return true;
     }
+
+    return false;
   };
+
+  // Register the form submit handler with the stepper context
+  useEffect(() => {
+    registerFormSubmitHandler(handleSubmit);
+  }, [registerFormSubmitHandler]);
+
+  // Save form data when page is about to unload
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      const data = form.getValues();
+      setSituationDescriptions(data);
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [form, setSituationDescriptions]);
 
   return (
     <FormProvider {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <div className="space-y-4">
-          <CurrentFinancialSituation />
-          <EmploymentCircumstances />
-          <ReasonForApplying />
-          <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? 'Submitting...' : 'Submit Application'}
-          </Button>
-        </div>
+      <form className="space-y-4">
+        <CurrentFinancialSituation />
+        <EmploymentCircumstances />
+        <ReasonForApplying />
+        {isSubmitting && (
+          <div className="flex justify-center">
+            <div className="text-muted-foreground text-sm">
+              Submitting your application...
+            </div>
+          </div>
+        )}
       </form>
     </FormProvider>
   );
