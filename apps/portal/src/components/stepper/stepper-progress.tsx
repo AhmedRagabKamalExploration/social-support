@@ -6,8 +6,7 @@ import React from 'react';
 import { useFinanceRequestStepper } from '@/context/stepper/finance-request-stepper-context';
 
 export const StepperProgress = () => {
-  const { progress, currentStep, totalSteps, steps, goToStep } =
-    useFinanceRequestStepper();
+  const { progress, currentStep, steps, goToStep } = useFinanceRequestStepper();
 
   return (
     <div className="w-full space-y-4">
@@ -18,7 +17,7 @@ export const StepperProgress = () => {
           <div key={step.id} className="flex flex-col items-center text-center">
             <button
               onClick={() => goToStep(index)}
-              className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium ${
+              className={`flex size-8 items-center justify-center rounded-full text-sm font-medium ${
                 currentStep === index
                   ? 'bg-primary text-primary-foreground'
                   : currentStep > index
