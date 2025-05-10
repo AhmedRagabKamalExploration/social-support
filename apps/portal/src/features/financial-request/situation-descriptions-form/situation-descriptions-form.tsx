@@ -5,22 +5,17 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { useRouter } from '@/i18n/navigation';
-
 import {
-  type FamilyAndFinancialInfoFormData,
-  familyAndFinancialInfoFormSchema,
-} from '../schema';
+  type SituationDescriptionsFormData,
+  situationDescriptionsFormSchema,
+} from '@/features/financial-request/schema';
 
-import { EmploymentStatus } from './employment-status/employment-status';
-import { HousingStatus } from './housing-status/housing-status';
-import { MaritalStatus } from './marital-status/marital-status';
-import { MonthlyIncome } from './monthly-income/monthly-income';
-import { NumberOfDependents } from './number-of-dependents/number-of-dependents';
+import { CurrentFinancialSituation } from './current-financial-situation/current-financial-situation';
+import { EmploymentCircumstances } from './employment-circumstances/employment-circumstances';
+import { ReasonForApplying } from './reason-for-applying/reason-for-applying';
 
-export function FamilyFinanceForm() {
+export function SituationDescriptionsForm() {
   const t = useTranslations('feedback');
-  const router = useRouter();
 
   // Create a completely different adapter that manually handles placeholders
   const tAdapter = (key: string, values?: Record<string, unknown>) => {
@@ -50,34 +45,29 @@ export function FamilyFinanceForm() {
     }
   };
 
-  const form = useForm<FamilyAndFinancialInfoFormData>({
-    resolver: zodResolver(familyAndFinancialInfoFormSchema(tAdapter)),
+  const form = useForm<SituationDescriptionsFormData>({
+    resolver: zodResolver(situationDescriptionsFormSchema(tAdapter)),
     defaultValues: {
-      maritalStatus: undefined,
-      numberOfDependents: 0,
-      employmentStatus: undefined,
-      monthlyIncome: 0,
-      housingStatus: undefined,
+      currentFinancialSituation: '',
+      employmentCircumstances: '',
+      reasonForApplying: '',
     },
   });
 
-  const onSubmit = (data: FamilyAndFinancialInfoFormData) => {
+  const onSubmit = (data: SituationDescriptionsFormData) => {
     console.log(data);
-    router.push('/financial-request/situation-descriptions');
+    // TODO: submit the form, call your backend api
   };
 
   return (
     <FormProvider {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="grid grid-cols-2 gap-4"
-      >
-        <MaritalStatus />
-        <NumberOfDependents />
-        <EmploymentStatus />
-        <MonthlyIncome />
-        <HousingStatus />
-        <Button type="submit">Next</Button>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <div className="space-y-4">
+          <CurrentFinancialSituation />
+          <EmploymentCircumstances />
+          <ReasonForApplying />
+          <Button type="submit">Next</Button>
+        </div>
       </form>
     </FormProvider>
   );

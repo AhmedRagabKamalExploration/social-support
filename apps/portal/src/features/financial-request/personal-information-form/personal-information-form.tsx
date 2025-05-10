@@ -82,7 +82,7 @@ export function PersonalInformationForm({
     <FormProvider {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="grid grid-cols-2 gap-4"
+        className="grid grid-cols-1 gap-4 sm:grid-cols-2"
       >
         <FullName />
         <NationalId />
