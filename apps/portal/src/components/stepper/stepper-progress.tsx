@@ -6,7 +6,25 @@ import React from 'react';
 import { useFinanceRequestStepper } from '@/context/stepper/finance-request-stepper-context';
 
 export const StepperProgress = () => {
-  const { progress, currentStep, steps, goToStep } = useFinanceRequestStepper();
+  const { progress, currentStep, steps, goToStep, formSubmitHandlerRef } =
+    useFinanceRequestStepper();
+
+  const handleStepClick = async (index: number) => {
+    // Only validate when trying to move forward
+    if (index > currentStep) {
+      // Try to use the registered form submit handler first
+      if (formSubmitHandlerRef.current) {
+        const canProceed = await formSubmitHandlerRef.current();
+        if (canProceed) {
+          goToStep(index);
+        }
+        return;
+      }
+    }
+
+    // If moving backward or no form handler is registered, allow navigation
+    goToStep(index);
+  };
 
   return (
     <div className="w-full space-y-4">
@@ -16,7 +34,7 @@ export const StepperProgress = () => {
         {steps.map((step, index) => (
           <div key={step.id} className="flex flex-col items-center text-center">
             <button
-              onClick={() => goToStep(index)}
+              onClick={() => handleStepClick(index)}
               className={`flex size-8 items-center justify-center rounded-full text-sm font-medium ${
                 currentStep === index
                   ? 'bg-primary text-primary-foreground'
