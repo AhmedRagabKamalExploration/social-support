@@ -56,12 +56,15 @@ export function DateOfBirth() {
                 mode="single"
                 selected={field.value ? parseISO(field.value) : undefined}
                 onSelect={(date) =>
-                  field.onChange(date ? date.toISOString().split('T')[0] : '')
+                  field.onChange(date ? format(date, 'yyyy-MM-dd') : '')
                 }
                 disabled={(date) =>
                   date > new Date() || date < new Date('1900-01-01')
                 }
                 initialFocus
+                classNames={{
+                  day_selected: 'text-white bg-primary',
+                }}
               />
             </PopoverContent>
           </Popover>

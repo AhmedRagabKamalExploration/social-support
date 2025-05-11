@@ -10,6 +10,7 @@ export * from '@/components/popover/popover';
 export * from '@/components/shad-button/shad-button';
 export * from '@/components/command/command';
 export * from '@/components/dialog/dialog';
+export * from '@/components/date-picker/date-picker';
 
 // Export forms components [input, select, textarea, etc.]
 export * from '@/components/forms';
