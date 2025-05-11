@@ -22,9 +22,17 @@
       "subTitle": "تم تقديم طلبك بنجاح. سنقوم بمراجعة طلبك والرد عليك قريبًا.",
       "yourRequestID": "رقم طلبك:",
       "pleaseSaveYourRequestID": "يرجى حفظ رقم طلبك للرجوع إليه في المستقبل.",
-      "backToHome": "العودة إلى الصفحة الرئيسية"
+      "backToHome": "العودة إلى الصفحة الرئيسية",
+      "Metadata": {
+        "title": "تم تقديم الطلب",
+        "description": "صفحة تم تقديم الطلب"
+      }
     },
     "PersonalInformation": {
+      "Metadata": {
+        "title": "المعلومات الشخصية",
+        "description": "المعلومات الشخصية لطلب المساعدة المالية"
+      },
       "components": {
         "personalInformationForm": {
           "FullName": {
@@ -79,6 +87,10 @@
       }
     },
     "FamilyFinanceInfo": {
+      "Metadata": {
+        "title": "المعلومات المالية والأسرية",
+        "description": "المعلومات المالية والأسرية لطلب المساعدة المالية"
+      },
       "components": {
         "familyFinanceForm": {
           "MaritalStatus": {
@@ -118,6 +130,10 @@
       }
     },
     "SituationDescription": {
+      "Metadata": {
+        "title": "وصف الوضع",
+        "description": "وصف الوضع لطلب المساعدة المالية"
+      },
       "components": {
         "situationDescriptionForm": {
           "CurrentFinancialSituation": {

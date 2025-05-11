@@ -4,6 +4,15 @@ import { getTranslations } from 'next-intl/server';
 
 import { Link } from '@/i18n/navigation';
 
+export async function generateMetadata() {
+  const t = await getTranslations('Pages.RequestSuccess.Metadata');
+
+  return {
+    title: t('title'),
+    description: t('description'),
+  };
+}
+
 export default async function RequestSuccessPage({
   searchParams,
 }: {

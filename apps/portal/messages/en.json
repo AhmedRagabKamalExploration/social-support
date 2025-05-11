@@ -22,9 +22,17 @@
       "subTitle": "Your request has been successfully submitted. We will review your application and get back to you soon.",
       "yourRequestID": "Your Request ID:",
       "pleaseSaveYourRequestID": "Please save your request ID for future reference.",
-      "backToHome": "Back to Home"
+      "backToHome": "Back to Home",
+      "Metadata": {
+        "title": "Request Success",
+        "description": "Request success page"
+      }
     },
     "PersonalInformation": {
+      "Metadata": {
+        "title": "Personal Information",
+        "description": "Personal information for the financial request"
+      },
       "components": {
         "personalInformationForm": {
           "FullName": {
@@ -79,6 +87,10 @@
       }
     },
     "FamilyFinanceInfo": {
+      "Metadata": {
+        "title": "Family & Financial Info",
+        "description": "Family & financial information for the financial request"
+      },
       "components": {
         "familyFinanceForm": {
           "MaritalStatus": {
@@ -118,6 +130,10 @@
       }
     },
     "SituationDescription": {
+      "Metadata": {
+        "title": "Situation Description",
+        "description": "Situation description for the financial request"
+      },
       "components": {
         "situationDescriptionForm": {
           "CurrentFinancialSituation": {
@@ -231,7 +247,7 @@
         "gender": "Gender",
         "address": "Address",
         "country": "Country",
-        "state": "State",
+        "stateOrEmirate": "State or Emirate",
         "city": "City",
         "phone": "Phone",
         "email": "Email"
