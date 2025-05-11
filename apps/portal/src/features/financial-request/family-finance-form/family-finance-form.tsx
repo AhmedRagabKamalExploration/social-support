@@ -78,6 +78,7 @@ export function FamilyFinanceForm() {
   };
 
   const form = useForm<FamilyAndFinancialInfoFormData>({
+    mode: 'onBlur',
     resolver: zodResolver(familyAndFinancialInfoFormSchema(tAdapter)),
     defaultValues: savedData || {
       maritalStatus: undefined,

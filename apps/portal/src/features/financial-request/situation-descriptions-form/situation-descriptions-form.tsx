@@ -85,6 +85,7 @@ export function SituationDescriptionsForm() {
   };
 
   const form = useForm<SituationDescriptionsFormData>({
+    mode: 'onBlur',
     resolver: zodResolver(situationDescriptionsFormSchema(tAdapter)),
     defaultValues: savedData || {
       currentFinancialSituation: '',
@@ -144,9 +145,6 @@ export function SituationDescriptionsForm() {
           } else {
             router.push('/request-success?type=financial');
           }
-
-          // Log the success
-          console.log('Form submitted successfully!', result);
         } catch (error: any) {
           console.error('Error submitting form:', error);
           toast.error('Failed to submit application', {

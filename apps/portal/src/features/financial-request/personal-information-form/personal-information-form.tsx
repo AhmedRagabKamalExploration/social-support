@@ -80,6 +80,7 @@ export function PersonalInformationForm({
 
   const form = useForm<PersonalInformationFormData>({
     resolver: zodResolver(personalInformationFormSchema(tAdapter)),
+    mode: 'onBlur',
     defaultValues: savedData || {
       fullName: '',
       nationalId: '',

@@ -54,8 +54,6 @@ export async function http<T = unknown>(
     },
   };
 
-  console.log({ mergedOptions });
-
   const response = await fetch(url, mergedOptions);
 
   if (!response.ok) {
