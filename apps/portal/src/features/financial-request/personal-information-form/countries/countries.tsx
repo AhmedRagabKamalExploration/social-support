@@ -91,7 +91,7 @@ export function Countries({
                   <CommandGroup>
                     {countries.map(({ iso2, name, emoji }) => (
                       <CommandItem
-                        value={iso2}
+                        value={name}
                         key={name}
                         onSelect={() => {
                           setValue('country', iso2);

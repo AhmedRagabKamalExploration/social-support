@@ -106,7 +106,7 @@ export function CountryStates() {
                       <CommandGroup>
                         {states.map(({ state_code, name }) => (
                           <CommandItem
-                            value={state_code}
+                            value={name}
                             key={name}
                             onSelect={() => {
                               setValue('stateOrEmirate', state_code);
