@@ -44,7 +44,7 @@ export function FamilyFinanceForm() {
   useEffect(() => {
     // Only check and redirect after the store has been hydrated
     if (isHydrated && !isPersonalInformationCompleted) {
-      toast.error('You should fill the personal information first');
+      toast.error(t('validation.personalInformation'));
       goToStep(0);
     }
   }, [isPersonalInformationCompleted, goToStep, isHydrated]);

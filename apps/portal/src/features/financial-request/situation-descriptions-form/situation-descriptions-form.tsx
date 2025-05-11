@@ -28,6 +28,10 @@ type FinancialRequestResponse = {
 
 export function SituationDescriptionsForm() {
   const t = useTranslations('feedback');
+  const situationFeedbackT = useTranslations(
+    'Pages.SituationDescription.components.situationDescriptionForm.feedback',
+  );
+
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -53,10 +57,8 @@ export function SituationDescriptionsForm() {
     (state) => state.situationDescriptions,
   );
 
-  // Check if the store is hydrated to prevent incorrect redirects
   const isHydrated = useStoreHydration();
 
-  // Create a completely different adapter that manually handles placeholders
   const tAdapter = (key: string, values?: Record<string, unknown>) => {
     try {
       // Extract the actual message key
@@ -94,7 +96,6 @@ export function SituationDescriptionsForm() {
     },
   });
 
-  // This function handles both validation and (if last step) submission
   const handleSubmit = async () => {
     const isValid = await form.trigger();
 
@@ -102,16 +103,12 @@ export function SituationDescriptionsForm() {
       const data = form.getValues();
       setSituationDescriptions(data);
 
-      // If it's the last step, proceed with API submission
       if (isLastStep && !isSubmitting) {
         try {
           setIsSubmitting(true);
 
-          // Get complete form data
           const completeFormData = getCompleteFormData();
-          console.log('Complete form data:', completeFormData);
 
-          // Submit the complete form data to the backend API
           const response = await fetch('/api/financial-request', {
             method: 'POST',
             headers: {
@@ -123,21 +120,19 @@ export function SituationDescriptionsForm() {
           const result = (await response.json()) as FinancialRequestResponse;
 
           if (!response.ok) {
-            throw new Error(result.message || 'Failed to submit request');
+            throw new Error(
+              result.message || situationFeedbackT('failedToSubmitRequest'),
+            );
           }
 
-          // Mark as submitted to prevent redirects
           setIsSubmitted(true);
 
-          // Show success message
-          toast.success('Application submitted successfully!', {
-            description: `Your request ID is ${result.requestId}`,
+          toast.success(situationFeedbackT('success'), {
+            description: `${situationFeedbackT('yourRequestID')} ${result.requestId}`,
           });
 
-          // Reset form data before redirecting
           resetFormData();
 
-          // Navigate to success page with the request ID
           if (result.requestId) {
             router.push(
               `/request-success?requestId=${result.requestId}&type=financial`,
@@ -146,9 +141,8 @@ export function SituationDescriptionsForm() {
             router.push('/request-success?type=financial');
           }
         } catch (error: any) {
-          console.error('Error submitting form:', error);
-          toast.error('Failed to submit application', {
-            description: error.message || 'Please try again later',
+          toast.error(situationFeedbackT('error'), {
+            description: error.message || situationFeedbackT('tryAgain'),
           });
           return false;
         } finally {
@@ -162,12 +156,10 @@ export function SituationDescriptionsForm() {
     return false;
   };
 
-  // Register the form submit handler with the stepper context
   useEffect(() => {
     registerFormSubmitHandler(handleSubmit);
   }, [registerFormSubmitHandler]);
 
-  // Save form data when page is about to unload
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
       const data = form.getValues();
@@ -185,13 +177,13 @@ export function SituationDescriptionsForm() {
     if (!isHydrated || isSubmitted) return;
 
     if (!isPersonalInformationCompleted) {
-      toast.error('You should fill the personal information first');
+      toast.error(t('validation.personalInformation'));
       goToStep(0);
       return;
     }
 
     if (!isFamilyFinanceInfoCompleted) {
-      toast.error('You should fill the family finance info first');
+      toast.error(t('validation.familyFinanceInfo'));
       goToStep(1);
     }
   }, [
@@ -211,7 +203,7 @@ export function SituationDescriptionsForm() {
         {isSubmitting && (
           <div className="flex justify-center">
             <div className="text-muted-foreground text-sm">
-              Submitting your application...
+              {situationFeedbackT('submitting')}
             </div>
           </div>
         )}

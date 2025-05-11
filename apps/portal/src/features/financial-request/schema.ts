@@ -59,7 +59,7 @@ export const personalInformationFormSchema = (t: any) => {
         message: safeTranslate(
           t,
           'validation.minLength',
-          { field: 'Full name', length: MIN_STRING_LENGTH },
+          { field: t('validation.label.fullName'), length: MIN_STRING_LENGTH },
           `Full name must be at least ${MIN_STRING_LENGTH} characters.`,
         ),
       })
@@ -67,7 +67,7 @@ export const personalInformationFormSchema = (t: any) => {
         message: safeTranslate(
           t,
           'validation.maxLength',
-          { field: 'Full name', length: 100 },
+          { field: t('validation.label.fullName'), length: 100 },
           'Full name cannot exceed 100 characters.',
         ),
       })
@@ -102,7 +102,7 @@ export const personalInformationFormSchema = (t: any) => {
         message: safeTranslate(
           t,
           'validation.minLength',
-          { field: 'Address', length: 5 },
+          { field: t('validation.label.address'), length: 5 },
           'Address must be at least 5 characters.',
         ),
       })
@@ -110,7 +110,7 @@ export const personalInformationFormSchema = (t: any) => {
         message: safeTranslate(
           t,
           'validation.maxLength',
-          { field: 'Address', length: 200 },
+          { field: t('validation.label.address'), length: 200 },
           'Address cannot exceed 200 characters.',
         ),
       })
@@ -122,7 +122,7 @@ export const personalInformationFormSchema = (t: any) => {
         message: safeTranslate(
           t,
           'validation.minLength',
-          { field: 'City', length: MIN_STRING_LENGTH },
+          { field: t('validation.label.city'), length: MIN_STRING_LENGTH },
           `City must be at least ${MIN_STRING_LENGTH} characters.`,
         ),
       })
@@ -130,7 +130,7 @@ export const personalInformationFormSchema = (t: any) => {
         message: safeTranslate(
           t,
           'validation.maxLength',
-          { field: 'City', length: 50 },
+          { field: t('validation.label.city'), length: 50 },
           'City cannot exceed 50 characters.',
         ),
       })
@@ -142,7 +142,10 @@ export const personalInformationFormSchema = (t: any) => {
         message: safeTranslate(
           t,
           'validation.minLength',
-          { field: 'State or Emirate', length: MIN_STRING_LENGTH },
+          {
+            field: t('validation.label.stateOrEmirate'),
+            length: MIN_STRING_LENGTH,
+          },
           `State or Emirate must be at least ${MIN_STRING_LENGTH} characters.`,
         ),
       })
