@@ -16,12 +16,14 @@ import { useTranslations } from 'next-intl';
 import { useFormContext } from 'react-hook-form';
 
 import type { FamilyAndFinancialInfoFormData } from '@/features/financial-request/schema';
+import { useDirection } from '@/hooks/use-direction';
 
 export function EmploymentStatus() {
   const { control } = useFormContext<FamilyAndFinancialInfoFormData>();
   const t = useTranslations(
     'Pages.FamilyFinanceInfo.components.familyFinanceForm.EmploymentStatus',
   );
+  const direction = useDirection();
 
   return (
     <FormField
@@ -30,7 +32,11 @@ export function EmploymentStatus() {
       render={({ field }) => (
         <FormItem>
           <FormLabel>{t('label')}</FormLabel>
-          <Select onValueChange={field.onChange} value={field.value ?? ''}>
+          <Select
+            dir={direction}
+            onValueChange={field.onChange}
+            value={field.value ?? ''}
+          >
             <FormControl>
               <SelectTrigger>
                 <SelectValue placeholder={t('placeholder')} />

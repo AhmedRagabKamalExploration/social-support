@@ -16,12 +16,15 @@ import { useTranslations } from 'next-intl';
 import { useFormContext } from 'react-hook-form';
 
 import type { PersonalInformationFormData } from '@/features/financial-request/schema';
+import { useDirection } from '@/hooks/use-direction';
 
 export function Gender() {
   const { control } = useFormContext<PersonalInformationFormData>();
   const t = useTranslations(
     'Pages.PersonalInformation.components.personalInformationForm.Gender',
   );
+
+  const direction = useDirection();
 
   return (
     <FormField
@@ -30,7 +33,11 @@ export function Gender() {
       render={({ field }) => (
         <FormItem>
           <FormLabel>{t('label')}</FormLabel>
-          <Select onValueChange={field.onChange} value={field.value ?? ''}>
+          <Select
+            dir={direction}
+            onValueChange={field.onChange}
+            value={field.value ?? ''}
+          >
             <FormControl>
               <SelectTrigger>
                 <SelectValue placeholder={t('placeholder')} />

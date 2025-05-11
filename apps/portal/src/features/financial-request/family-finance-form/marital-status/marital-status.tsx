@@ -19,12 +19,15 @@ import type {
   FamilyAndFinancialInfoFormData,
   PersonalInformationFormData,
 } from '@/features/financial-request/schema';
+import { useDirection } from '@/hooks/use-direction';
 
 export function MaritalStatus() {
   const t = useTranslations(
     'Pages.FamilyFinanceInfo.components.familyFinanceForm.MaritalStatus',
   );
   const { control } = useFormContext<FamilyAndFinancialInfoFormData>();
+
+  const direction = useDirection();
 
   return (
     <FormField
@@ -33,7 +36,11 @@ export function MaritalStatus() {
       render={({ field }) => (
         <FormItem>
           <FormLabel>{t('label')}</FormLabel>
-          <Select onValueChange={field.onChange} value={field.value ?? ''}>
+          <Select
+            dir={direction}
+            onValueChange={field.onChange}
+            value={field.value ?? ''}
+          >
             <FormControl>
               <SelectTrigger>
                 <SelectValue placeholder={t('placeholder')} />

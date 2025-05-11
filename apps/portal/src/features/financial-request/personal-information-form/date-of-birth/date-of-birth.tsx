@@ -14,17 +14,23 @@ import {
   cn,
 } from '@dge/ui-core';
 import { format, parseISO } from 'date-fns';
+import { ar, enUS } from 'date-fns/locale';
 import { CalendarIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { useLocale } from 'next-intl';
 import { useFormContext } from 'react-hook-form';
 
 import type { PersonalInformationFormData } from '@/features/financial-request/schema';
 
 export function DateOfBirth() {
   const { control } = useFormContext<PersonalInformationFormData>();
+  const locale = useLocale();
   const t = useTranslations(
     'Pages.PersonalInformation.components.personalInformationForm.DateOfBirth',
   );
+
+  const dateLocale = locale === 'ar' ? ar : enUS;
+
   return (
     <FormField
       control={control}
@@ -38,16 +44,16 @@ export function DateOfBirth() {
                 <ShadButton
                   variant={'outline'}
                   className={cn(
-                    'w-full pl-3 text-left font-normal',
+                    'flex w-full items-center justify-between px-3 text-start font-normal',
                     !field.value && 'text-muted-foreground',
                   )}
                 >
                   {field.value ? (
-                    format(parseISO(field.value), 'PPP')
+                    format(parseISO(field.value), 'PPP', { locale: dateLocale })
                   ) : (
                     <span>{t('placeholder')}</span>
                   )}
-                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                  <CalendarIcon className="ms-2 h-4 w-4 opacity-50" />
                 </ShadButton>
               </FormControl>
             </PopoverTrigger>
@@ -62,6 +68,7 @@ export function DateOfBirth() {
                   date > new Date() || date < new Date('1900-01-01')
                 }
                 initialFocus
+                locale={dateLocale}
                 classNames={{
                   day_selected: 'text-white bg-primary',
                 }}
