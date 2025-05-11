@@ -22,15 +22,31 @@ import { Check, ChevronsUpDown } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useFormContext } from 'react-hook-form';
 
+import { SelectSkeleton } from '@/components/select-skeleton/select-skeleton';
 import type { Country } from '@/types/country.type';
 
 import type { PersonalInformationFormData } from '../../schema';
 
-export function Countries({ countries }: { countries: Country[] }) {
+export function Countries({
+  countries,
+  isLoading,
+}: {
+  countries: Country[];
+  isLoading: boolean;
+}) {
   const { control, setValue } = useFormContext<PersonalInformationFormData>();
   const t = useTranslations(
     'Pages.PersonalInformation.components.personalInformationForm.Country',
   );
+
+  if (isLoading) {
+    return (
+      <FormItem className="flex flex-col">
+        <FormLabel>{t('label')}</FormLabel>
+        <SelectSkeleton />
+      </FormItem>
+    );
+  }
 
   return (
     <FormField
@@ -79,6 +95,9 @@ export function Countries({ countries }: { countries: Country[] }) {
                         key={name}
                         onSelect={() => {
                           setValue('country', iso2);
+                          // Reset state and city when country changes
+                          setValue('stateOrEmirate', '');
+                          setValue('city', '');
                         }}
                       >
                         <span className="me-0.5">{emoji}</span>

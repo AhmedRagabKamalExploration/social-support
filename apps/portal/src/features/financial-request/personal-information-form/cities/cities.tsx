@@ -26,6 +26,7 @@ import { useFormContext } from 'react-hook-form';
 
 import { getCountryStateCitiesAction } from '@/actions/country-state-cities.action';
 import { ErrorFallback } from '@/components/error-fallback/error-fallback';
+import { SelectSkeleton } from '@/components/select-skeleton/select-skeleton';
 import type { City } from '@/types/city.type';
 
 import type { PersonalInformationFormData } from '../../schema';
@@ -34,7 +35,6 @@ export function CountryStateCities() {
   const { control, setValue, watch } =
     useFormContext<PersonalInformationFormData>();
   const [cities, setCities] = useState<City[]>([]);
-  // TODO: handle loading state
   const [isLoading, setIsLoading] = useState(false);
   const t = useTranslations(
     'Pages.PersonalInformation.components.personalInformationForm.City',
@@ -43,7 +43,10 @@ export function CountryStateCities() {
   const countryIso2 = watch('country');
   const stateCode = watch('stateOrEmirate');
 
-  const fetchCountryStates = async (countryIso2: string, stateCode: string) => {
+  const fetchCountryStateCities = async (
+    countryIso2: string,
+    stateCode: string,
+  ) => {
     try {
       setIsLoading(true);
       const cities = await getCountryStateCitiesAction(countryIso2, stateCode);
@@ -57,7 +60,10 @@ export function CountryStateCities() {
 
   useEffect(() => {
     if (countryIso2 && stateCode) {
-      fetchCountryStates(countryIso2, stateCode);
+      fetchCountryStateCities(countryIso2, stateCode);
+    } else {
+      // Clear cities when country or state is not selected
+      setCities([]);
     }
   }, [countryIso2, stateCode]);
 
@@ -69,58 +75,62 @@ export function CountryStateCities() {
         render={({ field }) => (
           <FormItem className="flex flex-col">
             <FormLabel>{t('label')}</FormLabel>
-            <Popover>
-              <PopoverTrigger asChild>
-                <FormControl>
-                  <ShadButton
-                    variant="outline"
-                    role="combobox"
-                    className={cn(
-                      'flex w-full items-center justify-between gap-2',
-                      !field.value && 'text-muted-foreground',
-                    )}
-                  >
-                    {field.value
-                      ? cities.find((city) => city.name === field.value)?.name
-                      : t('placeholder')}
+            {isLoading ? (
+              <SelectSkeleton />
+            ) : (
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <ShadButton
+                      variant="outline"
+                      role="combobox"
+                      className={cn(
+                        'flex w-full items-center justify-between gap-2',
+                        !field.value && 'text-muted-foreground',
+                      )}
+                    >
+                      {field.value
+                        ? cities.find((city) => city.name === field.value)?.name
+                        : t('placeholder')}
 
-                    <ChevronsUpDown className="opacity-50" />
-                  </ShadButton>
-                </FormControl>
-              </PopoverTrigger>
-              <PopoverContent className="w-full p-0">
-                <Command>
-                  <CommandInput
-                    placeholder={t('placeholderSearch')}
-                    className="h-9"
-                  />
-                  <CommandList>
-                    <CommandEmpty>{t('noCityFound')}</CommandEmpty>
-                    <CommandGroup>
-                      {cities.map(({ name }) => (
-                        <CommandItem
-                          value={name}
-                          key={name}
-                          onSelect={() => {
-                            setValue('city', name);
-                          }}
-                        >
-                          {name}
-                          <Check
-                            className={cn(
-                              'ml-auto',
-                              name === field.value
-                                ? 'opacity-100'
-                                : 'opacity-0',
-                            )}
-                          />
-                        </CommandItem>
-                      ))}
-                    </CommandGroup>
-                  </CommandList>
-                </Command>
-              </PopoverContent>
-            </Popover>
+                      <ChevronsUpDown className="opacity-50" />
+                    </ShadButton>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className="w-full p-0">
+                  <Command>
+                    <CommandInput
+                      placeholder={t('placeholderSearch')}
+                      className="h-9"
+                    />
+                    <CommandList>
+                      <CommandEmpty>{t('noCityFound')}</CommandEmpty>
+                      <CommandGroup>
+                        {cities.map(({ name }) => (
+                          <CommandItem
+                            value={name}
+                            key={name}
+                            onSelect={() => {
+                              setValue('city', name);
+                            }}
+                          >
+                            {name}
+                            <Check
+                              className={cn(
+                                'ml-auto',
+                                name === field.value
+                                  ? 'opacity-100'
+                                  : 'opacity-0',
+                              )}
+                            />
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </CommandList>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+            )}
 
             <FormMessage />
           </FormItem>
