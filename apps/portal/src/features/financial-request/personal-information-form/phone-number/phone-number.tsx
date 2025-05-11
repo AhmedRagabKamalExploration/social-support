@@ -26,7 +26,7 @@ export function PhoneNumber() {
         <FormItem>
           <FormLabel>{t('label')}</FormLabel>
           <FormControl>
-            <Input placeholder={t('placeholder')} {...field} />
+            <Input type="tel" placeholder={t('placeholder')} {...field} />
           </FormControl>
           <FormMessage />
         </FormItem>

@@ -26,7 +26,7 @@ export function Email() {
         <FormItem>
           <FormLabel>{t('label')}</FormLabel>
           <FormControl>
-            <Input placeholder={t('placeholder')} {...field} />
+            <Input type="email" placeholder={t('placeholder')} {...field} />
           </FormControl>
           <FormMessage />
         </FormItem>

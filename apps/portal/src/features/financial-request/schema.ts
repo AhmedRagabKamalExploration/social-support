@@ -138,6 +138,14 @@ export const personalInformationFormSchema = (t: any) => {
 
     stateOrEmirate: z
       .string({ required_error: t('validation.required') })
+      .min(MIN_STRING_LENGTH, {
+        message: safeTranslate(
+          t,
+          'validation.minLength',
+          { field: 'State or Emirate', length: MIN_STRING_LENGTH },
+          `State or Emirate must be at least ${MIN_STRING_LENGTH} characters.`,
+        ),
+      })
       .trim(),
 
     country: z
