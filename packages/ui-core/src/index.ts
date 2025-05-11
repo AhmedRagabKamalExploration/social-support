@@ -11,7 +11,7 @@ export * from '@/components/shad-button/shad-button';
 export * from '@/components/command/command';
 export * from '@/components/dialog/dialog';
 export * from '@/components/date-picker/date-picker';
-
+export * from '@/components/skeleton/skeleton';
 // Export forms components [input, select, textarea, etc.]
 export * from '@/components/forms';
 
