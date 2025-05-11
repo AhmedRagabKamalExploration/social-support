@@ -9,6 +9,7 @@ import { toast } from 'sonner';
 import { useStoreHydration } from '@/hooks/use-store-hydration';
 import { useFinanceRequestStepper } from '@/providers/finance-request-stepper-context';
 import { useFinancialRequestStore } from '@/store/financial-request.store';
+import { createTAdapter } from '@/utils/t-adapter';
 
 import {
   type FamilyAndFinancialInfoFormData,
@@ -38,47 +39,16 @@ export function FamilyFinanceForm() {
     (state) => state.isPersonalInformationCompleted,
   );
 
-  // Check if the store is hydrated to prevent incorrect redirects
   const isHydrated = useStoreHydration();
 
   useEffect(() => {
-    // Only check and redirect after the store has been hydrated
     if (isHydrated && !isPersonalInformationCompleted) {
       toast.error(t('validation.personalInformation'));
       goToStep(0);
     }
   }, [isPersonalInformationCompleted, goToStep, isHydrated]);
 
-  // Create a completely different adapter that manually handles placeholders
-  const tAdapter = (key: string, values?: Record<string, unknown>) => {
-    try {
-      // Extract the actual message key
-      const validationKey = key.replace(/^validation\./, '');
-
-      // First get the raw message template from the translation
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const messageTemplate = t.raw(`validation.${validationKey}` as any);
-
-      // If there are no values to replace, just return the template
-      if (!values || typeof messageTemplate !== 'string') {
-        return messageTemplate;
-      }
-
-      // Manually replace the placeholders with the values
-      let result = messageTemplate;
-      for (const [key, value] of Object.entries(values)) {
-        result = result.replaceAll(
-          new RegExp(`{{${key}}}`, 'g'),
-          String(value),
-        );
-      }
-
-      return result;
-    } catch (error) {
-      console.error('Translation error:', error, 'for key:', key);
-      return key.split('.').pop() || key;
-    }
-  };
+  const tAdapter = createTAdapter(t);
 
   const form = useForm<FamilyAndFinancialInfoFormData>({
     mode: 'onBlur',
@@ -92,14 +62,12 @@ export function FamilyFinanceForm() {
     },
   });
 
-  // This function will be called by the stepper navigation when Next is clicked
   const handleSubmit = async () => {
     const isValid = await form.trigger();
 
     if (isValid) {
       const data = form.getValues();
       setFamilyFinanceInfo(data);
-      setFamilyFinanceInfoCompleted(true);
       return true;
     }
 
@@ -109,18 +77,19 @@ export function FamilyFinanceForm() {
   useEffect(() => {
     if (isHydrated && savedData) {
       form.reset(savedData);
-      setFamilyFinanceInfoCompleted(true);
-    }
-  }, [isHydrated, savedData, form]);
 
-  // Register the form submit handler with the stepper context
+      const schema = familyAndFinancialInfoFormSchema(tAdapter);
+      const result = schema.safeParse(savedData);
+      setFamilyFinanceInfoCompleted(result.success);
+    }
+  }, [isHydrated, savedData, form, setFamilyFinanceInfoCompleted]);
+
   useEffect(() => {
     registerFormSubmitHandler(handleSubmit);
   }, [registerFormSubmitHandler]);
 
-  // Save form data when page is about to unload
   useEffect(() => {
-    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+    const handleBeforeUnload = () => {
       const data = form.getValues();
       setFamilyFinanceInfo(data);
     };

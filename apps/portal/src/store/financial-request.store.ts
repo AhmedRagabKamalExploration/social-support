@@ -12,6 +12,7 @@ export type FinancialRequestState = {
 
   isPersonalInformationCompleted: boolean;
   isFamilyFinanceInfoCompleted: boolean;
+  isSituationDescriptionsCompleted: boolean;
 
   // Hydration state
   _hasHydrated: boolean;
@@ -23,6 +24,7 @@ export type FinancialRequestState = {
 
   setPersonalInformationCompleted: (isCompleted: boolean) => void;
   setFamilyFinanceInfoCompleted: (isCompleted: boolean) => void;
+  setSituationDescriptionsCompleted: (isCompleted: boolean) => void;
 
   getCompleteFormData: () => {
     personalInformation: PersonalInformationFormData | null;
@@ -42,6 +44,7 @@ export const useFinancialRequestStore = create<FinancialRequestState>()(
 
       isPersonalInformationCompleted: false,
       isFamilyFinanceInfoCompleted: false,
+      isSituationDescriptionsCompleted: false,
 
       // Initialize hydration state as false
       _hasHydrated: false,
@@ -67,6 +70,9 @@ export const useFinancialRequestStore = create<FinancialRequestState>()(
       setFamilyFinanceInfoCompleted: (isCompleted) => {
         set({ isFamilyFinanceInfoCompleted: isCompleted });
       },
+      setSituationDescriptionsCompleted: (isCompleted) => {
+        set({ isSituationDescriptionsCompleted: isCompleted });
+      },
 
       getCompleteFormData: () => ({
         personalInformation: get().personalInformation,
@@ -81,6 +87,7 @@ export const useFinancialRequestStore = create<FinancialRequestState>()(
           situationDescriptions: null,
           isPersonalInformationCompleted: false,
           isFamilyFinanceInfoCompleted: false,
+          isSituationDescriptionsCompleted: false,
         });
       },
     }),
@@ -93,6 +100,8 @@ export const useFinancialRequestStore = create<FinancialRequestState>()(
         situationDescriptions: state.situationDescriptions,
         isPersonalInformationCompleted: state.isPersonalInformationCompleted,
         isFamilyFinanceInfoCompleted: state.isFamilyFinanceInfoCompleted,
+        isSituationDescriptionsCompleted:
+          state.isSituationDescriptionsCompleted,
       }),
       onRehydrateStorage: () => (state) => {
         // When store rehydration is complete, set hydration state to true

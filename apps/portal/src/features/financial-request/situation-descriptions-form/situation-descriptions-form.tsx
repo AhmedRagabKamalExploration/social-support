@@ -14,6 +14,7 @@ import { useStoreHydration } from '@/hooks/use-store-hydration';
 import { useRouter } from '@/i18n/navigation';
 import { useFinanceRequestStepper } from '@/providers/finance-request-stepper-context';
 import { useFinancialRequestStore } from '@/store/financial-request.store';
+import { createTAdapter } from '@/utils/t-adapter';
 
 import { CurrentFinancialSituation } from './current-financial-situation/current-financial-situation';
 import { EmploymentCircumstances } from './employment-circumstances/employment-circumstances';
@@ -47,6 +48,9 @@ export function SituationDescriptionsForm() {
   const setSituationDescriptions = useFinancialRequestStore(
     (state) => state.setSituationDescriptions,
   );
+  const setSituationDescriptionsCompleted = useFinancialRequestStore(
+    (state) => state.setSituationDescriptionsCompleted,
+  );
   const getCompleteFormData = useFinancialRequestStore(
     (state) => state.getCompleteFormData,
   );
@@ -59,35 +63,7 @@ export function SituationDescriptionsForm() {
 
   const isHydrated = useStoreHydration();
 
-  const tAdapter = (key: string, values?: Record<string, unknown>) => {
-    try {
-      // Extract the actual message key
-      const validationKey = key.replace(/^validation\./, '');
-
-      // First get the raw message template from the translation
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const messageTemplate = t.raw(`validation.${validationKey}` as any);
-
-      // If there are no values to replace, just return the template
-      if (!values || typeof messageTemplate !== 'string') {
-        return messageTemplate;
-      }
-
-      // Manually replace the placeholders with the values
-      let result = messageTemplate;
-      for (const [key, value] of Object.entries(values)) {
-        result = result.replaceAll(
-          new RegExp(`{{${key}}}`, 'g'),
-          String(value),
-        );
-      }
-
-      return result;
-    } catch (error) {
-      console.error('Translation error:', error, 'for key:', key);
-      return key.split('.').pop() || key;
-    }
-  };
+  const tAdapter = createTAdapter(t);
 
   const form = useForm<SituationDescriptionsFormData>({
     mode: 'onBlur',
@@ -105,6 +81,7 @@ export function SituationDescriptionsForm() {
     if (isValid) {
       const data = form.getValues();
       setSituationDescriptions(data);
+      setSituationDescriptionsCompleted(true);
 
       if (isLastStep && !isSubmitting) {
         try {
@@ -164,7 +141,7 @@ export function SituationDescriptionsForm() {
   }, [registerFormSubmitHandler]);
 
   useEffect(() => {
-    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+    const handleBeforeUnload = () => {
       const data = form.getValues();
       setSituationDescriptions(data);
     };
@@ -196,6 +173,16 @@ export function SituationDescriptionsForm() {
     isHydrated,
     isSubmitted,
   ]);
+
+  useEffect(() => {
+    if (isHydrated && savedData) {
+      form.reset(savedData);
+
+      const schema = situationDescriptionsFormSchema(tAdapter);
+      const result = schema.safeParse(savedData);
+      setSituationDescriptionsCompleted(result.success);
+    }
+  }, [isHydrated, savedData, form, setSituationDescriptionsCompleted]);
 
   return (
     <FormProvider {...form}>
