@@ -5,7 +5,7 @@ import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import React from 'react';
 
-import { useFinanceRequestStepper } from '@/context/stepper/finance-request-stepper-context';
+import { useFinanceRequestStepper } from '@/providers/finance-request-stepper-context';
 
 type StepperNavigationProps = {
   onNext?: () => Promise<boolean> | boolean;

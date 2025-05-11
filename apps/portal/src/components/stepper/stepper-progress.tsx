@@ -3,7 +3,7 @@
 import { Progress } from '@dge/ui-core';
 import React from 'react';
 
-import { useFinanceRequestStepper } from '@/context/stepper/finance-request-stepper-context';
+import { useFinanceRequestStepper } from '@/providers/finance-request-stepper-context';
 
 export const StepperProgress = () => {
   const { progress, currentStep, steps, goToStep, formSubmitHandlerRef } =

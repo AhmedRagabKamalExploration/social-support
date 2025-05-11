@@ -6,13 +6,13 @@ import React, { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import { useFinanceRequestStepper } from '@/context/stepper/finance-request-stepper-context';
 import {
   type SituationDescriptionsFormData,
   situationDescriptionsFormSchema,
 } from '@/features/financial-request/schema';
 import { useStoreHydration } from '@/hooks/use-store-hydration';
 import { useRouter } from '@/i18n/navigation';
+import { useFinanceRequestStepper } from '@/providers/finance-request-stepper-context';
 import { useFinancialRequestStore } from '@/store/financial-request.store';
 
 import { CurrentFinancialSituation } from './current-financial-situation/current-financial-situation';

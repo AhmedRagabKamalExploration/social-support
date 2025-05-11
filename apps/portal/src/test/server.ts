@@ -1,6 +1,8 @@
 // https://mswjs.io/docs/integrations/node
 import { setupServer } from 'msw/node';
 
-import countries from '@/test/handlers/countries';
+import countriesHandlers from './handlers/countries';
+import locationsHandlers from './handlers/locations';
 
-export const server = setupServer(...countries);
+// Create a server instance
+export const server = setupServer(...countriesHandlers, ...locationsHandlers);

@@ -8,9 +8,9 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import { notFound } from 'next/navigation';
 import { Toaster } from 'sonner';
 
-import { Providers } from '@/context/providers/providers';
 import type { Locale } from '@/i18n/locale';
 import { routing } from '@/i18n/routing';
+import { Providers } from '@/providers/providers';
 import '@/styles/globals.css';
 
 const geistSans = Geist({

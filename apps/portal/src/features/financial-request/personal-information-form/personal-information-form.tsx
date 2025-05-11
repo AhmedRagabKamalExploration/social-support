@@ -5,8 +5,8 @@ import { useTranslations } from 'next-intl';
 import React, { useEffect, useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { useFinanceRequestStepper } from '@/context/stepper/finance-request-stepper-context';
 import { useStoreHydration } from '@/hooks/use-store-hydration';
+import { useFinanceRequestStepper } from '@/providers/finance-request-stepper-context';
 import { useFinancialRequestStore } from '@/store/financial-request.store';
 
 import {

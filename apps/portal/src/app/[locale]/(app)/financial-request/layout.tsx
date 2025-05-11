@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 
 import { StepperNavigation } from '@/components/stepper/stepper-navigation';
 import { StepperProgress } from '@/components/stepper/stepper-progress';
-import { FinanceRequestStepperProvider } from '@/context/stepper/finance-request-stepper-context';
+import { FinanceRequestStepperProvider } from '@/providers/finance-request-stepper-context';
 
 export default function FinancialRequestLayout({
   children,

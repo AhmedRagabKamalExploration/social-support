@@ -3,7 +3,10 @@
 import { usePathname, useRouter } from 'next/navigation';
 import React, { createContext, useContext, useMemo, useState } from 'react';
 
-import { type UseStepperSteps, useStepperSteps } from './useStepperSteps';
+import {
+  type UseStepperSteps,
+  useStepperSteps,
+} from '../hooks/useStepperSteps';
 
 type FinanceRequestStepperContextType = {
   currentStep: number;

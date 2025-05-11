@@ -6,8 +6,8 @@ import React, { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import { useFinanceRequestStepper } from '@/context/stepper/finance-request-stepper-context';
 import { useStoreHydration } from '@/hooks/use-store-hydration';
+import { useFinanceRequestStepper } from '@/providers/finance-request-stepper-context';
 import { useFinancialRequestStore } from '@/store/financial-request.store';
 
 import {
