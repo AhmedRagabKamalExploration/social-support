@@ -77,7 +77,7 @@
           },
           "Phone": {
             "label": "رقم الهاتف",
-            "placeholder": "+971 XX XXX XXXX أو +971XXXXXXXXX"
+            "placeholder": "+971 XX XXX XXXX | +971XXXXXXXXX"
           },
           "Email": {
             "label": "البريد الإلكتروني",
