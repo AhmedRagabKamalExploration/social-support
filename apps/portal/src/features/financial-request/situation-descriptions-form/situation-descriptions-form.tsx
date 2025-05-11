@@ -1,6 +1,5 @@
 'use client';
 
-import { Button } from '@dge/ui-core';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import React, { useEffect, useState } from 'react';
@@ -12,6 +11,7 @@ import {
   type SituationDescriptionsFormData,
   situationDescriptionsFormSchema,
 } from '@/features/financial-request/schema';
+import { useStoreHydration } from '@/hooks/use-store-hydration';
 import { useRouter } from '@/i18n/navigation';
 import { useFinancialRequestStore } from '@/store/financial-request.store';
 
@@ -30,8 +30,15 @@ export function SituationDescriptionsForm() {
   const t = useTranslations('feedback');
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { isLastStep, registerFormSubmitHandler } = useFinanceRequestStepper();
+  const { isLastStep, registerFormSubmitHandler, goToStep } =
+    useFinanceRequestStepper();
 
+  const isFamilyFinanceInfoCompleted = useFinancialRequestStore(
+    (state) => state.isFamilyFinanceInfoCompleted,
+  );
+  const isPersonalInformationCompleted = useFinancialRequestStore(
+    (state) => state.isPersonalInformationCompleted,
+  );
   const setSituationDescriptions = useFinancialRequestStore(
     (state) => state.setSituationDescriptions,
   );
@@ -44,6 +51,9 @@ export function SituationDescriptionsForm() {
   const savedData = useFinancialRequestStore(
     (state) => state.situationDescriptions,
   );
+
+  // Check if the store is hydrated to prevent incorrect redirects
+  const isHydrated = useStoreHydration();
 
   // Create a completely different adapter that manually handles placeholders
   const tAdapter = (key: string, values?: Record<string, unknown>) => {
@@ -168,6 +178,26 @@ export function SituationDescriptionsForm() {
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
   }, [form, setSituationDescriptions]);
+
+  useEffect(() => {
+    // Only check values and redirect after the store has been hydrated
+    if (isHydrated) {
+      if (!isPersonalInformationCompleted) {
+        toast.error('You should fill the personal information first');
+        goToStep(0);
+        return;
+      }
+      if (!isFamilyFinanceInfoCompleted) {
+        toast.error('You should fill the family finance info first');
+        goToStep(1);
+      }
+    }
+  }, [
+    isFamilyFinanceInfoCompleted,
+    isPersonalInformationCompleted,
+    goToStep,
+    isHydrated,
+  ]);
 
   return (
     <FormProvider {...form}>

@@ -1,6 +1,8 @@
 import { NextIntlClientProvider } from 'next-intl';
 import type { getMessages } from 'next-intl/server';
 
+import { StoreHydrationProvider } from './store-hydration-provider';
+
 export function Providers({
   children,
   messages,
@@ -10,7 +12,7 @@ export function Providers({
 }>) {
   return (
     <NextIntlClientProvider messages={messages}>
-      {children}
+      <StoreHydrationProvider>{children}</StoreHydrationProvider>
     </NextIntlClientProvider>
   );
 }

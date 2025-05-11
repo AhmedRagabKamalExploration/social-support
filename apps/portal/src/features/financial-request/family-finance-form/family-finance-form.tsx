@@ -1,12 +1,13 @@
 'use client';
 
-import { Button } from '@dge/ui-core';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import React, { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 import { useFinanceRequestStepper } from '@/context/stepper/finance-request-stepper-context';
+import { useStoreHydration } from '@/hooks/use-store-hydration';
 import { useFinancialRequestStore } from '@/store/financial-request.store';
 
 import {
@@ -22,13 +23,31 @@ import { NumberOfDependents } from './number-of-dependents/number-of-dependents'
 
 export function FamilyFinanceForm() {
   const t = useTranslations('feedback');
-  const { registerFormSubmitHandler } = useFinanceRequestStepper();
+  const { registerFormSubmitHandler, goToStep } = useFinanceRequestStepper();
   const setFamilyFinanceInfo = useFinancialRequestStore(
     (state) => state.setFamilyFinanceInfo,
   );
   const savedData = useFinancialRequestStore(
     (state) => state.familyFinanceInfo,
   );
+  const setFamilyFinanceInfoCompleted = useFinancialRequestStore(
+    (state) => state.setFamilyFinanceInfoCompleted,
+  );
+
+  const isPersonalInformationCompleted = useFinancialRequestStore(
+    (state) => state.isPersonalInformationCompleted,
+  );
+
+  // Check if the store is hydrated to prevent incorrect redirects
+  const isHydrated = useStoreHydration();
+
+  useEffect(() => {
+    // Only check and redirect after the store has been hydrated
+    if (isHydrated && !isPersonalInformationCompleted) {
+      toast.error('You should fill the personal information first');
+      goToStep(0);
+    }
+  }, [isPersonalInformationCompleted, goToStep, isHydrated]);
 
   // Create a completely different adapter that manually handles placeholders
   const tAdapter = (key: string, values?: Record<string, unknown>) => {
@@ -76,6 +95,7 @@ export function FamilyFinanceForm() {
     if (isValid) {
       const data = form.getValues();
       setFamilyFinanceInfo(data);
+      setFamilyFinanceInfoCompleted(true);
       return true;
     }
 

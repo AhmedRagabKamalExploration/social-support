@@ -33,6 +33,9 @@ export function PersonalInformationForm({
   const setPersonalInformation = useFinancialRequestStore(
     (state) => state.setPersonalInformation,
   );
+  const setPersonalInformationCompleted = useFinancialRequestStore(
+    (state) => state.setPersonalInformationCompleted,
+  );
   const savedData = useFinancialRequestStore(
     (state) => state.personalInformation,
   );
@@ -88,6 +91,7 @@ export function PersonalInformationForm({
     if (isValid) {
       const data = form.getValues();
       setPersonalInformation(data);
+      setPersonalInformationCompleted(true);
       return true;
     }
 
