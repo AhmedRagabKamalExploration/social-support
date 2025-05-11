@@ -57,9 +57,11 @@ function getNavigationType() {
 
 // Register all available web vitals metrics
 export function registerWebVitals() {
-  onCLS(sendToAnalytics);
-  onFCP(sendToAnalytics);
-  onINP(sendToAnalytics);
-  onLCP(sendToAnalytics);
-  onTTFB(sendToAnalytics);
+  if (typeof window !== 'undefined') {
+    onCLS(sendToAnalytics);
+    onFCP(sendToAnalytics);
+    onINP(sendToAnalytics);
+    onLCP(sendToAnalytics);
+    onTTFB(sendToAnalytics);
+  }
 }

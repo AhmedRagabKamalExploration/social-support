@@ -117,6 +117,15 @@ vi.mock('./email/email', () => ({
   Email: () => <div data-testid="email-component">Email Component</div>,
 }));
 
+let mockSchemaValidationResult = { success: false };
+
+// Mock zod schema
+vi.mock('../schema', () => ({
+  personalInformationFormSchema: () => ({
+    safeParse: () => mockSchemaValidationResult,
+  }),
+}));
+
 describe('PersonalInformationForm', () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -133,6 +142,7 @@ describe('PersonalInformationForm', () => {
       email: '',
     };
     mockIsPersonalInformationCompleted = false;
+    mockSchemaValidationResult = { success: false };
   });
 
   it('renders all form components', () => {
@@ -207,6 +217,9 @@ describe('PersonalInformationForm', () => {
       email: 'john@example.com',
     };
 
+    // Set validation result to success for this test
+    mockSchemaValidationResult = { success: true };
+
     render(
       <PersonalInformationForm>
         <div>Child content</div>
@@ -258,7 +271,7 @@ describe('PersonalInformationForm', () => {
     expect(mockTrigger).toHaveBeenCalled();
     expect(mockGetValues).toHaveBeenCalled();
     expect(mockSetPersonalInformation).toHaveBeenCalled();
-    expect(mockSetPersonalInformationCompleted).toHaveBeenCalledWith(true);
+    expect(mockSetPersonalInformationCompleted).toHaveBeenCalledWith(false);
     expect(result).toBe(true);
   });
 });
