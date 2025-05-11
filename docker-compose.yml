@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  social-support:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - DOCKER_BUILDKIT=1
+    ports:
+      - '3000:3000'
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      # Add any other environment variables your application needs here

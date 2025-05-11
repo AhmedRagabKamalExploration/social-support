@@ -10,6 +10,7 @@ const bundleAnalyzer = withBundleAnalyzer({
 });
 
 const nextConfig: NextConfig = {
+  output: 'standalone',
   experimental: {
     useCache: true,
   },
