@@ -164,7 +164,7 @@ describe('PersonalInformationForm', () => {
 
     // Simulate the beforeunload event
     const beforeUnloadEvent = new Event('beforeunload');
-    window.dispatchEvent(beforeUnloadEvent);
+    globalThis.dispatchEvent(beforeUnloadEvent);
 
     // Verify store functions were called
     expect(mockSetPersonalInformation).toHaveBeenCalled();

@@ -22,7 +22,7 @@ export function LocaleSwitcher() {
 
   // Preserve query parameters when switching languages
   const getHrefWithParams = (path: string) => {
-    const queryString = searchParams?.toString();
+    const queryString = searchParams.toString();
     return queryString ? `${path}?${queryString}` : path;
   };
 

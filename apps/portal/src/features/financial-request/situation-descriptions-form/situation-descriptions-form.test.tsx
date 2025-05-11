@@ -29,10 +29,10 @@ vi.mock('@hookform/resolvers/zod', () => ({
 
 vi.mock('next-intl', () => ({
   useTranslations: () => {
-    const tFn = (key: string) => key;
+    const tFunction = (key: string) => key;
     // Add the raw method to the translation function
-    tFn.raw = (key: string) => key;
-    return tFn;
+    tFunction.raw = (key: string) => key;
+    return tFunction;
   },
 }));
 
@@ -60,37 +60,37 @@ vi.mock('@/store/financial-request.store', () => ({
   useFinancialRequestStore: (selector: Function) => {
     // Mock store values depending on the selector
     if (
-      selector.name?.includes('isPersonalInformationCompleted') ||
+      selector.name.includes('isPersonalInformationCompleted') ||
       selector.toString().includes('isPersonalInformationCompleted')
     )
       return true;
 
     if (
-      selector.name?.includes('isFamilyFinanceInfoCompleted') ||
+      selector.name.includes('isFamilyFinanceInfoCompleted') ||
       selector.toString().includes('isFamilyFinanceInfoCompleted')
     )
       return true;
 
     if (
-      selector.name?.includes('setSituationDescriptions') ||
+      selector.name.includes('setSituationDescriptions') ||
       selector.toString().includes('setSituationDescriptions')
     )
       return mockSetSituationDescriptions;
 
     if (
-      selector.name?.includes('getCompleteFormData') ||
+      selector.name.includes('getCompleteFormData') ||
       selector.toString().includes('getCompleteFormData')
     )
       return mockGetCompleteFormData;
 
     if (
-      selector.name?.includes('resetFormData') ||
+      selector.name.includes('resetFormData') ||
       selector.toString().includes('resetFormData')
     )
       return mockResetFormData;
 
     if (
-      selector.name?.includes('situationDescriptions') ||
+      selector.name.includes('situationDescriptions') ||
       selector.toString().includes('situationDescriptions')
     )
       return {
@@ -154,7 +154,7 @@ vi.mock('react-hook-form', async () => {
     ...actual,
     useForm: vi.fn().mockImplementation(() => ({
       control: {},
-      handleSubmit: vi.fn((fn) => fn),
+      handleSubmit: vi.fn((function_) => function_),
       trigger: vi.fn().mockResolvedValue(true),
       getValues: vi.fn().mockReturnValue({
         currentFinancialSituation: 'test situation',
@@ -191,7 +191,7 @@ describe('SituationDescriptionsForm', () => {
     mockIsLastStep = true;
 
     // Mock the fetch API for success
-    global.fetch = vi.fn().mockResolvedValue({
+    globalThis.fetch = vi.fn().mockResolvedValue({
       ok: true,
       json: vi.fn().mockResolvedValue({
         success: true,
@@ -219,7 +219,7 @@ describe('SituationDescriptionsForm', () => {
     });
 
     // Verify fetch was called
-    expect(global.fetch).toHaveBeenCalledWith(
+    expect(globalThis.fetch).toHaveBeenCalledWith(
       '/api/financial-request',
       expect.any(Object),
     );
@@ -230,7 +230,7 @@ describe('SituationDescriptionsForm', () => {
     mockIsLastStep = true;
 
     // Mock the fetch API for failure
-    global.fetch = vi.fn().mockResolvedValue({
+    globalThis.fetch = vi.fn().mockResolvedValue({
       ok: false,
       json: vi.fn().mockResolvedValue({
         success: false,
@@ -255,13 +255,13 @@ describe('SituationDescriptionsForm', () => {
     await act(async () => {
       try {
         await mockHandleSubmitImplementation.error();
-      } catch (error) {
+      } catch {
         // We expect an error here, so we catch it
       }
     });
 
     // Verify fetch was called
-    expect(global.fetch).toHaveBeenCalledWith(
+    expect(globalThis.fetch).toHaveBeenCalledWith(
       '/api/financial-request',
       expect.any(Object),
     );

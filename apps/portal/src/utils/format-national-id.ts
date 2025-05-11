@@ -1,5 +1,5 @@
 export function formatNationalId(value: string) {
-  const digitsOnly = value.replace(/\D/g, '');
+  const digitsOnly = value.replaceAll(/\D/g, '');
 
   if (digitsOnly.length <= 3) {
     return digitsOnly;

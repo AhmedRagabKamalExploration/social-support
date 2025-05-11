@@ -113,7 +113,7 @@ describe('CountriesWrapper', () => {
 
     render(
       <FormWrapper>
-        <CountriesWrapper countriesPromise={mockPromise} isLoading={true} />
+        <CountriesWrapper countriesPromise={mockPromise} isLoading />
       </FormWrapper>,
     );
 

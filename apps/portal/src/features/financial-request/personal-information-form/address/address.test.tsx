@@ -28,7 +28,7 @@ vi.mock('@dge/ui-core', () => ({
   FormLabel: ({ children }: { children: React.ReactNode }) => (
     <label>{children}</label>
   ),
-  FormMessage: () => <div data-testid="form-message"></div>,
+  FormMessage: () => <div data-testid="form-message" />,
   Input: (props: any) => <input data-testid="address-input" {...props} />,
 }));
 
@@ -51,7 +51,7 @@ vi.mock('next-intl', () => ({
 }));
 
 // Setup the form provider with real react-hook-form
-const FormWrapper = ({ children }: { children: React.ReactNode }) => {
+function FormWrapper({ children }: { children: React.ReactNode }) {
   const methods = useForm({
     defaultValues: {
       address: '',
@@ -59,7 +59,7 @@ const FormWrapper = ({ children }: { children: React.ReactNode }) => {
   });
 
   return <FormProvider {...methods}>{children}</FormProvider>;
-};
+}
 
 describe('Address', () => {
   it('renders with correct label', () => {

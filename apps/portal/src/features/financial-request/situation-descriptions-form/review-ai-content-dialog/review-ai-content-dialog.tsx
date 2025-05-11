@@ -38,7 +38,9 @@ export function ReviewAiContentDialog({
         <DialogDescription>{t('description')}</DialogDescription>
         <Textarea
           value={editedContent}
-          onChange={(e) => setEditedContent(e.target.value)}
+          onChange={(e) => {
+            setEditedContent(e.target.value);
+          }}
           className="min-h-[200px]"
         />
         <DialogFooter className="gap-2">

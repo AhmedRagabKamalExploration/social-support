@@ -11,8 +11,8 @@ const mockParseISO = vi.fn().mockReturnValue(new Date('2000-01-01'));
 
 // Mock the date-fns functions
 vi.mock('date-fns', () => ({
-  format: (date: Date, formatStr: string, options?: any) =>
-    mockFormat(date, formatStr, options),
+  format: (date: Date, formatString: string, options?: any) =>
+    mockFormat(date, formatString, options),
   parseISO: (date: string) => mockParseISO(date),
 }));
 
@@ -56,7 +56,7 @@ vi.mock('@dge/ui-core', () => ({
   FormLabel: ({ children }: { children: React.ReactNode }) => (
     <label>{children}</label>
   ),
-  FormMessage: () => <div data-testid="form-message"></div>,
+  FormMessage: () => <div data-testid="form-message" />,
   Popover: ({ children }: { children: React.ReactNode }) => (
     <div>{children}</div>
   ),
@@ -107,7 +107,7 @@ vi.mock('@/hooks/use-direction', () => ({
 }));
 
 // Setup the form provider with real react-hook-form
-const FormWrapper = ({ children }: { children: React.ReactNode }) => {
+function FormWrapper({ children }: { children: React.ReactNode }) {
   const methods = useForm({
     defaultValues: {
       dateOfBirth: '',
@@ -115,7 +115,7 @@ const FormWrapper = ({ children }: { children: React.ReactNode }) => {
   });
 
   return <FormProvider {...methods}>{children}</FormProvider>;
-};
+}
 
 describe('DateOfBirth', () => {
   beforeEach(() => {

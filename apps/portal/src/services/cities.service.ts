@@ -6,7 +6,7 @@ import 'server-only';
 
 import { ENDPOINTS } from '@/constant/endpoints';
 import { httpWithType } from '@/http';
-import { CityResponse } from '@/types/city.type';
+import type { CityResponse } from '@/types/city.type';
 
 import { getFullApiUrl } from './domain.service';
 

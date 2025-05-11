@@ -14,7 +14,7 @@ export const country = {
   timezones: [
     {
       zoneName: 'Asia/Kabul',
-      gmtOffset: 16200,
+      gmtOffset: 16_200,
       gmtOffsetName: 'UTC+04:30',
       abbreviation: 'AFT',
       tzName: 'Afghanistan Time',

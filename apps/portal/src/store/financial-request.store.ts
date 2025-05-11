@@ -1,9 +1,9 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
-import { type PersonalInformationFormData } from '@/features/financial-request/schema';
-import { type FamilyAndFinancialInfoFormData } from '@/features/financial-request/schema';
-import { type SituationDescriptionsFormData } from '@/features/financial-request/schema';
+import type { PersonalInformationFormData } from '@/features/financial-request/schema';
+import type { FamilyAndFinancialInfoFormData } from '@/features/financial-request/schema';
+import type { SituationDescriptionsFormData } from '@/features/financial-request/schema';
 
 export type FinancialRequestState = {
   personalInformation: PersonalInformationFormData | null;
@@ -51,14 +51,22 @@ export const useFinancialRequestStore = create<FinancialRequestState>()(
         });
       },
 
-      setPersonalInformation: (data) => set({ personalInformation: data }),
-      setFamilyFinanceInfo: (data) => set({ familyFinanceInfo: data }),
-      setSituationDescriptions: (data) => set({ situationDescriptions: data }),
+      setPersonalInformation: (data) => {
+        set({ personalInformation: data });
+      },
+      setFamilyFinanceInfo: (data) => {
+        set({ familyFinanceInfo: data });
+      },
+      setSituationDescriptions: (data) => {
+        set({ situationDescriptions: data });
+      },
 
-      setPersonalInformationCompleted: (isCompleted) =>
-        set({ isPersonalInformationCompleted: isCompleted }),
-      setFamilyFinanceInfoCompleted: (isCompleted) =>
-        set({ isFamilyFinanceInfoCompleted: isCompleted }),
+      setPersonalInformationCompleted: (isCompleted) => {
+        set({ isPersonalInformationCompleted: isCompleted });
+      },
+      setFamilyFinanceInfoCompleted: (isCompleted) => {
+        set({ isFamilyFinanceInfoCompleted: isCompleted });
+      },
 
       getCompleteFormData: () => ({
         personalInformation: get().personalInformation,
@@ -66,14 +74,15 @@ export const useFinancialRequestStore = create<FinancialRequestState>()(
         situationDescriptions: get().situationDescriptions,
       }),
 
-      resetFormData: () =>
+      resetFormData: () => {
         set({
           personalInformation: null,
           familyFinanceInfo: null,
           situationDescriptions: null,
           isPersonalInformationCompleted: false,
           isFamilyFinanceInfoCompleted: false,
-        }),
+        });
+      },
     }),
     {
       name: 'financial-request-storage',

@@ -75,9 +75,12 @@ export function SituationDescriptionsForm() {
 
       // Manually replace the placeholders with the values
       let result = messageTemplate;
-      Object.entries(values).forEach(([key, value]) => {
-        result = result.replace(new RegExp(`{{${key}}}`, 'g'), String(value));
-      });
+      for (const [key, value] of Object.entries(values)) {
+        result = result.replaceAll(
+          new RegExp(`{{${key}}}`, 'g'),
+          String(value),
+        );
+      }
 
       return result;
     } catch (error) {
@@ -200,13 +203,13 @@ export function SituationDescriptionsForm() {
         <CurrentFinancialSituation />
         <EmploymentCircumstances />
         <ReasonForApplying />
-        {isSubmitting && (
+        {isSubmitting ? (
           <div className="flex justify-center">
             <div className="text-muted-foreground text-sm">
               {situationFeedbackT('submitting')}
             </div>
           </div>
-        )}
+        ) : null}
       </form>
     </FormProvider>
   );

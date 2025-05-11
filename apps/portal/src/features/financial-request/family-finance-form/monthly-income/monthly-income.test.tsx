@@ -17,14 +17,14 @@ vi.mock('next-intl', () => ({
   },
 }));
 
-const FormWrapper = ({ children }: { children: React.ReactNode }) => {
+function FormWrapper({ children }: { children: React.ReactNode }) {
   const methods = useForm({
     defaultValues: {
       monthlyIncome: 0,
     },
   });
   return <FormProvider {...methods}>{children}</FormProvider>;
-};
+}
 
 describe('MonthlyIncome', () => {
   it('renders monthly income field with label', () => {

@@ -5,9 +5,9 @@ import { afterAll, afterEach, beforeAll, vi } from 'vitest';
 
 import { server } from '@/test/server';
 
-(window as typeof window & { happyDOM: Window['happyDOM'] }).happyDOM.setURL(
-  'http://localhost',
-);
+(
+  globalThis as typeof globalThis & { happyDOM: Window['happyDOM'] }
+).happyDOM.setURL('http://localhost');
 
 beforeAll(() => {
   vi.mock('@/i18n/navigation', () => ({

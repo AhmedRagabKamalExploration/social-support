@@ -18,7 +18,7 @@ vi.mock('@dge/ui-core', () => ({
   ),
   Dialog: ({ open, onOpenChange, children }: any) => (
     <div data-testid="dialog" data-open={open}>
-      {open && (
+      {open ? (
         <>
           <button
             data-testid="close-dialog"
@@ -28,7 +28,7 @@ vi.mock('@dge/ui-core', () => ({
           </button>
           {children}
         </>
-      )}
+      ) : null}
     </div>
   ),
   DialogContent: ({ children, className }: any) => (

@@ -26,11 +26,11 @@ const FinanceRequestStepperContext = createContext<
   FinanceRequestStepperContextType | undefined
 >(undefined);
 
-export const FinanceRequestStepperProvider = ({
+export function FinanceRequestStepperProvider({
   children,
 }: {
   children: React.ReactNode;
-}) => {
+}) {
   const FINANCE_REQUEST_STEPS = useStepperSteps();
   const router = useRouter();
   const pathname = usePathname();
@@ -43,13 +43,12 @@ export const FinanceRequestStepperProvider = ({
     const currentPath = pathname;
     const localeSegment = pathname.split('/')[1];
 
-    for (let i = 0; i < FINANCE_REQUEST_STEPS.length; i++) {
-      const step = FINANCE_REQUEST_STEPS[i];
+    for (const [index, step] of FINANCE_REQUEST_STEPS.entries()) {
       if (step) {
         const fullPath = `/${localeSegment}${step.path}`;
 
         if (currentPath === fullPath) {
-          return i;
+          return index;
         }
       }
     }
@@ -77,14 +76,14 @@ export const FinanceRequestStepperProvider = ({
 
   const goToPreviousStep = () => {
     if (currentStep > 0) {
-      const prevStep = currentStep - 1;
-      const prevStepData = FINANCE_REQUEST_STEPS[prevStep];
-      if (prevStepData) {
-        const prevPath = prevStepData.path;
+      const previousStep = currentStep - 1;
+      const previousStepData = FINANCE_REQUEST_STEPS[previousStep];
+      if (previousStepData) {
+        const previousPath = previousStepData.path;
         const localeSegment = pathname.split('/')[1];
 
-        router.push(`/${localeSegment}${prevPath}`);
-        setCurrentStep(prevStep);
+        router.push(`/${localeSegment}${previousPath}`);
+        setCurrentStep(previousStep);
       }
     }
   };
@@ -143,7 +142,7 @@ export const FinanceRequestStepperProvider = ({
       {children}
     </FinanceRequestStepperContext.Provider>
   );
-};
+}
 
 export const useFinanceRequestStepper = () => {
   const context = useContext(FinanceRequestStepperContext);

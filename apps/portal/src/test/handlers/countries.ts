@@ -1,7 +1,7 @@
 // https://mswjs.io/docs/network-behavior/rest
 import { HttpResponse, http } from 'msw';
 
-import { Country } from '@/types/country.type';
+import type { Country } from '@/types/country.type';
 
 export default [
   http.get('/countries', () => {

@@ -39,7 +39,7 @@ export async function http<T = unknown>(
   url: string,
   options: RequestInit = {},
 ): Promise<T> {
-  const requestId = Math.random().toString(36).substring(2, 9);
+  const requestId = Math.random().toString(36).slice(2, 9);
   console.log(`[HTTP:${requestId}] Request: ${options.method || 'GET'} ${url}`);
   const startTime = Date.now();
 
@@ -63,11 +63,11 @@ export async function http<T = unknown>(
     let errorData;
     try {
       errorData = await clonedResponse.json();
-    } catch (e) {
+    } catch {
       // If JSON parsing fails, try text
       try {
         errorData = await response.text();
-      } catch (textError) {
+      } catch {
         // If all fails, use a generic error object
         errorData = { message: 'Failed to parse error response' };
       }
@@ -108,10 +108,10 @@ export async function http<T = unknown>(
     // For non-JSON responses, return as text or empty object
     try {
       return (await response.text()) as unknown as T;
-    } catch (e) {
-      console.error('Error reading response as text:', e);
+    } catch (error) {
+      console.error('Error reading response as text:', error);
       console.error(
-        `[HTTP:${requestId}, ${Date.now() - startTime}ms] Error: ${(e as Error).message}`,
+        `[HTTP:${requestId}, ${Date.now() - startTime}ms] Error: ${(error as Error).message}`,
       );
       return {} as T;
     }

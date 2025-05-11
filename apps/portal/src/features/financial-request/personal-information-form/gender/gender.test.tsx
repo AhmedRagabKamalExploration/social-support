@@ -34,7 +34,7 @@ vi.mock('@dge/ui-core', () => ({
   FormLabel: ({ children }: { children: React.ReactNode }) => (
     <label>{children}</label>
   ),
-  FormMessage: () => <div data-testid="form-message"></div>,
+  FormMessage: () => <div data-testid="form-message" />,
   Select: ({ children, dir }: any) => (
     <div data-testid="select" data-dir={dir}>
       {children}
@@ -50,7 +50,7 @@ vi.mock('@dge/ui-core', () => ({
     <div data-testid="select-trigger">{children}</div>
   ),
   SelectValue: ({ placeholder }: any) => (
-    <div data-testid="select-value" data-placeholder={placeholder}></div>
+    <div data-testid="select-value" data-placeholder={placeholder} />
   ),
 }));
 
@@ -85,7 +85,7 @@ vi.mock('@/hooks/use-direction', () => ({
 }));
 
 // Wrapper component to provide form context
-const FormWrapper = ({ children }: { children: React.ReactNode }) => {
+function FormWrapper({ children }: { children: React.ReactNode }) {
   const methods = useForm({
     defaultValues: {
       gender: '',
@@ -93,7 +93,7 @@ const FormWrapper = ({ children }: { children: React.ReactNode }) => {
   });
 
   return <FormProvider {...methods}>{children}</FormProvider>;
-};
+}
 
 describe('Gender', () => {
   beforeEach(() => {

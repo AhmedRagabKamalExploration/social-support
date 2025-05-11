@@ -46,7 +46,7 @@ vi.mock('@dge/ui-core', async () => {
     FormControl: ({ children }: any) => (
       <div data-testid="form-control">{children}</div>
     ),
-    FormMessage: () => <div data-testid="form-message"></div>,
+    FormMessage: () => <div data-testid="form-message" />,
     Select: ({ onValueChange, children }: any) => (
       <div data-testid="select-container">
         {children}
@@ -54,7 +54,7 @@ vi.mock('@dge/ui-core', async () => {
           id="mock-select-id"
           type="button"
           data-testid="select-button"
-          onClick={() => onValueChange && onValueChange('employed')}
+          onClick={() => onValueChange?.('employed')}
         >
           Select Option
         </button>
@@ -75,14 +75,14 @@ vi.mock('@dge/ui-core', async () => {
   };
 });
 
-const FormWrapper = ({ children }: { children: React.ReactNode }) => {
+function FormWrapper({ children }: { children: React.ReactNode }) {
   const methods = useForm({
     defaultValues: {
       employmentStatus: '',
     },
   });
   return <FormProvider {...methods}>{children}</FormProvider>;
-};
+}
 
 describe('EmploymentStatus', () => {
   it('renders employment status field with label', () => {

@@ -28,7 +28,7 @@ export function sendToAnalytics(metric: WebVitalsMetric) {
     delta: metric.delta,
     navigationType: getNavigationType(),
     // Optional additional data
-    pageUrl: window.location.href,
+    pageUrl: globalThis.location.href,
     userAgent: navigator.userAgent,
   });
 
@@ -51,10 +51,8 @@ export function sendToAnalytics(metric: WebVitalsMetric) {
 
 // Get navigation type (navigate, reload, back_forward, prerender)
 function getNavigationType() {
-  const nav = performance?.getEntriesByType?.(
-    'navigation',
-  )[0] as PerformanceNavigationTiming;
-  return nav?.type || 'unknown';
+  const nav = performance.getEntriesByType('navigation')[0]!;
+  return nav.type || 'unknown';
 }
 
 // Register all available web vitals metrics

@@ -40,18 +40,24 @@ export function EmploymentCircumstances() {
 
   const getEmploymentDescription = (status: string) => {
     switch (status) {
-      case 'employed':
+      case 'employed': {
         return `employed full-time with a monthly income of ${formData.monthlyIncome}`;
-      case 'unemployed':
+      }
+      case 'unemployed': {
         return 'currently unemployed and seeking employment opportunities';
-      case 'student':
+      }
+      case 'student': {
         return 'a full-time student';
-      case 'retired':
+      }
+      case 'retired': {
         return 'retired';
-      case 'homemaker':
+      }
+      case 'homemaker': {
         return 'a homemaker responsible for managing household affairs';
-      default:
+      }
+      default: {
         return `in the following employment situation: ${status}`;
+      }
     }
   };
 

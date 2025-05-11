@@ -25,10 +25,7 @@ export default async function PersonalInformationPage() {
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <Suspense
             fallback={
-              <CountriesWrapper
-                isLoading={true}
-                countriesPromise={countriesPromise}
-              />
+              <CountriesWrapper isLoading countriesPromise={countriesPromise} />
             }
           >
             <CountriesWrapper countriesPromise={countriesPromise} />

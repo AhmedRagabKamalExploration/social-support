@@ -82,7 +82,7 @@ vi.mock('react', async () => {
     ]),
     startTransition: (callback: Function) => callback(),
     useState: actual.useState,
-    useCallback: (cb: Function) => cb,
+    useCallback: (callback: Function) => callback,
   };
 });
 

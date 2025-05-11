@@ -7,7 +7,7 @@ import { NationalId } from './national-id';
 
 // Mock the formatNationalId utility
 const mockFormatNationalId = vi.fn((value) =>
-  value.replace(/\D/g, '').slice(0, 10),
+  value.replaceAll(/\D/g, '').slice(0, 10),
 );
 vi.mock('@/utils/format-national-id', () => ({
   formatNationalId: (value: string) => mockFormatNationalId(value),
@@ -36,7 +36,7 @@ vi.mock('@dge/ui-core', () => ({
   FormLabel: ({ children }: { children: React.ReactNode }) => (
     <label>{children}</label>
   ),
-  FormMessage: () => <div data-testid="form-message"></div>,
+  FormMessage: () => <div data-testid="form-message" />,
   Input: (props: any) => <input data-testid="national-id-input" {...props} />,
 }));
 
@@ -59,7 +59,7 @@ vi.mock('next-intl', () => ({
 }));
 
 // Setup the form provider with real react-hook-form
-const FormWrapper = ({ children }: { children: React.ReactNode }) => {
+function FormWrapper({ children }: { children: React.ReactNode }) {
   const methods = useForm({
     defaultValues: {
       nationalId: '',
@@ -67,7 +67,7 @@ const FormWrapper = ({ children }: { children: React.ReactNode }) => {
   });
 
   return <FormProvider {...methods}>{children}</FormProvider>;
-};
+}
 
 describe('NationalId', () => {
   beforeEach(() => {

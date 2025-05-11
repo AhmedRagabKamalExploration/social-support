@@ -16,7 +16,7 @@ const safeTranslate = (
 ) => {
   try {
     return t(key, values);
-  } catch (error) {
+  } catch {
     // Use fallback message or generate one from the values
     if (fallback) return fallback;
 
@@ -38,8 +38,8 @@ export const createEmiratesIdSchema = (t: any) =>
     .regex(emiratesIdRegex, { message: t('validation.eid.format') })
     .refine(
       (eid) => {
-        const yearPart = eid.substring(4, 8);
-        const year = parseInt(yearPart, 10);
+        const yearPart = eid.slice(4, 8);
+        const year = Number.parseInt(yearPart, 10);
         const currentYear = new Date().getFullYear();
         return year >= 1900 && year <= currentYear;
       },
@@ -79,8 +79,8 @@ export const personalInformationFormSchema = (t: any) => {
       .string({ required_error: t('validation.dob.required') })
       .min(1, { message: t('validation.dob.required') })
       .refine(
-        (dateStr) => {
-          const date = new Date(dateStr);
+        (dateString) => {
+          const date = new Date(dateString);
           return (
             !isNaN(date.getTime()) &&
             date < new Date() &&
@@ -204,7 +204,7 @@ export const familyAndFinancialInfoFormSchema = (t: any) =>
         invalid_type_error: t('validation.monthlyIncome.mustBeNumber'),
       })
       .nonnegative({ message: t('validation.monthlyIncome.nonNegative') })
-      .max(10000000, { message: t('validation.monthlyIncome.tooHigh') }),
+      .max(10_000_000, { message: t('validation.monthlyIncome.tooHigh') }),
 
     housingStatus: z.enum(
       ['own', 'rent', 'living_with_family', 'mortgaged', 'other'],

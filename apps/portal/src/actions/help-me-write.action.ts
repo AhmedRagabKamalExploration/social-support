@@ -2,7 +2,7 @@
 
 import { envConfig } from '@/config/env-config';
 
-export async function helpMeWriteAction(prompt: string, locale: string = 'en') {
+export async function helpMeWriteAction(prompt: string, locale = 'en') {
   try {
     // Get API key from environment variable or local storage
     const apiKey = envConfig.OPENAI_API_KEY;

@@ -27,7 +27,7 @@ import { useFormContext } from 'react-hook-form';
 import { getCountryStatesAction } from '@/actions/country-states.action';
 import { ErrorFallback } from '@/components/error-fallback/error-fallback';
 import { SelectSkeleton } from '@/components/select-skeleton/select-skeleton';
-import { State } from '@/types/state.type';
+import type { State } from '@/types/state.type';
 
 import type { PersonalInformationFormData } from '../../schema';
 

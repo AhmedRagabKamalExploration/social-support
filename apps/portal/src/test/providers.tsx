@@ -1,4 +1,4 @@
-import { type ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 import { FinanceRequestStepperProvider } from '@/providers/finance-request-stepper-context';
 import { Providers } from '@/providers/providers';

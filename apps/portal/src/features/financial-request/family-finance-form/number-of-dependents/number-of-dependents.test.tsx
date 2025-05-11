@@ -17,14 +17,14 @@ vi.mock('next-intl', () => ({
   },
 }));
 
-const FormWrapper = ({ children }: { children: React.ReactNode }) => {
+function FormWrapper({ children }: { children: React.ReactNode }) {
   const methods = useForm({
     defaultValues: {
       numberOfDependents: 0,
     },
   });
   return <FormProvider {...methods}>{children}</FormProvider>;
-};
+}
 
 describe('NumberOfDependents', () => {
   it('renders number of dependents field with label', () => {

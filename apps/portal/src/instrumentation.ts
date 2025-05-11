@@ -1,8 +1,8 @@
-import { type Instrumentation } from 'next';
+import type { Instrumentation } from 'next';
 
 export function register() {
   // Only register the web vitals in the browser environment
-  if (typeof window !== 'undefined') {
+  if (typeof globalThis !== 'undefined') {
     import('@/utils/web-vitals').then(({ registerWebVitals }) => {
       registerWebVitals();
     });
@@ -11,12 +11,12 @@ export function register() {
 
 // an onRequestError function to track server errors to any custom observability provider
 export const onRequestError: Instrumentation.onRequestError = async (
-  err,
+  error,
   request,
   context,
 ) => {
   if (process.env.NODE_ENV === 'development') {
-    console.log({ err, request, context });
+    console.log({ err: error, request, context });
   }
   // TODO: send error to a custom error reporting service (Sentry, etc.)
   // Exmaple: to send error to a custom error reporting service

@@ -42,7 +42,7 @@ export function DateOfBirth() {
             <PopoverTrigger asChild>
               <FormControl>
                 <ShadButton
-                  variant={'outline'}
+                  variant="outline"
                   className={cn(
                     'flex w-full items-center justify-between px-3 text-start font-normal',
                     !field.value && 'text-muted-foreground',
@@ -61,9 +61,9 @@ export function DateOfBirth() {
               <Calendar
                 mode="single"
                 selected={field.value ? parseISO(field.value) : undefined}
-                onSelect={(date) =>
-                  field.onChange(date ? format(date, 'yyyy-MM-dd') : '')
-                }
+                onSelect={(date) => {
+                  field.onChange(date ? format(date, 'yyyy-MM-dd') : '');
+                }}
                 disabled={(date) =>
                   date > new Date() || date < new Date('1900-01-01')
                 }

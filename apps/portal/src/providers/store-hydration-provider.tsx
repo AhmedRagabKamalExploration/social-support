@@ -4,9 +4,9 @@ import React, { useEffect } from 'react';
 
 import { useFinancialRequestStore } from '@/store/financial-request.store';
 
-interface StoreHydrationProviderProps {
+type StoreHydrationProviderProps = {
   children: React.ReactNode;
-}
+};
 
 /**
  * This component ensures that the store hydration state is properly initialized

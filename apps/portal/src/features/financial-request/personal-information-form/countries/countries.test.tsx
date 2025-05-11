@@ -72,7 +72,7 @@ describe('Countries', () => {
   it('renders loading skeleton when isLoading is true', () => {
     render(
       <FormWrapper>
-        <Countries countries={[]} isLoading={true} />
+        <Countries countries={[]} isLoading />
       </FormWrapper>,
     );
 

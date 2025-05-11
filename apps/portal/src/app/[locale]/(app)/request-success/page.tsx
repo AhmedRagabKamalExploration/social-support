@@ -33,7 +33,7 @@ export default async function RequestSuccessPage({
 
           <Paragraph className="text-lg">{t('subTitle')}</Paragraph>
 
-          {requestId && (
+          {requestId ? (
             <div className="rounded-md bg-gray-100 p-4">
               <Paragraph className="font-medium">
                 {t('yourRequestID')}
@@ -43,7 +43,7 @@ export default async function RequestSuccessPage({
                 {t('pleaseSaveYourRequestID')}
               </Paragraph>
             </div>
-          )}
+          ) : null}
 
           <div className="pt-4">
             <Button>

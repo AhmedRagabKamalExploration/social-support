@@ -19,7 +19,7 @@ export async function POST(request: Request) {
         message: 'Financial request submitted successfully',
         requestId:
           'FR-' +
-          Math.floor(Math.random() * 1000000)
+          Math.floor(Math.random() * 1_000_000)
             .toString()
             .padStart(6, '0'),
       },
