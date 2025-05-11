@@ -2,7 +2,7 @@
 
 import { envConfig } from '@/config/env-config';
 
-export async function helpMeWriteAction(prompt: string) {
+export async function helpMeWriteAction(prompt: string, locale: string = 'en') {
   try {
     // Get API key from environment variable or local storage
     const apiKey = envConfig.OPENAI_API_KEY;
@@ -12,6 +12,11 @@ export async function helpMeWriteAction(prompt: string) {
         'OpenAI API key is not set. Please set it in your environment variables or in the application settings.',
       );
     }
+
+    // Determine language instruction based on locale
+    const languageInstruction = locale.startsWith('ar')
+      ? 'Respond in Arabic language. '
+      : '';
 
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -24,8 +29,7 @@ export async function helpMeWriteAction(prompt: string) {
         messages: [
           {
             role: 'system',
-            content:
-              'You are a helpful assistant that provides concise and empathetic responses for people applying for social support.',
+            content: `${languageInstruction}You are a helpful assistant that provides concise and empathetic responses for people applying for social support.`,
           },
           { role: 'user', content: prompt },
         ],

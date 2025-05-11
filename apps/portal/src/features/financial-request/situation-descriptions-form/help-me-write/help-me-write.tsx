@@ -3,6 +3,7 @@
 import { Button } from '@dge/ui-core';
 import { Sparkles } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { useLocale } from 'next-intl';
 import { useActionState, useCallback } from 'react';
 import { startTransition, useState } from 'react';
 import { toast } from 'sonner';
@@ -19,11 +20,12 @@ type HelpMeWriteProps = {
 export default function HelpMeWrite({ prompt, onChange }: HelpMeWriteProps) {
   const [open, setOpen] = useState(false);
   const [editedContent, setEditedContent] = useState('');
+  const locale = useLocale();
   const t = useTranslations(
     'Pages.SituationDescription.components.situationDescriptionForm.HelpMeWrite',
   );
   const [_state, formAction, isPending] = useActionState(async () => {
-    const result = await helpMeWriteAction(prompt);
+    const result = await helpMeWriteAction(prompt, locale);
 
     if (result.success && result.data) {
       setEditedContent(result.data);
