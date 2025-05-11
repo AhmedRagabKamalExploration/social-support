@@ -1,20 +1,21 @@
-import { Button, Headline, Paragraph } from '@dge/ui-core';
-import { ArrowRight } from 'lucide-react';
+import { Headline, Paragraph } from '@dge/ui-core';
 import { useTranslations } from 'next-intl';
 
-import { Link } from '@/i18n/navigation';
+import { ContinueRequestButton } from '@/components/continue-request-button/continue-request-button';
+import { NewRequestButton } from '@/components/new-request-button/new-request-button';
 
 export default function AppPage() {
   const t = useTranslations('Pages.HomePage');
+
   return (
     <div className="flex flex-1 flex-col items-center justify-center gap-4">
       <Headline>{t('title')}</Headline>
       <Paragraph className="text-center">{t('subTitle')}</Paragraph>
-      <Button icon={<ArrowRight className="rtl:rotate-180" />}>
-        <Link href="/financial-request/personal-information">
-          {t('buttonText')}
-        </Link>
-      </Button>
+
+      <div className="flex flex-col gap-3 sm:flex-row">
+        <NewRequestButton />
+        <ContinueRequestButton />
+      </div>
     </div>
   );
 }

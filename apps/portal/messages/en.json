@@ -7,7 +7,8 @@
     "HomePage": {
       "title": "Welcome to the portal",
       "subTitle": "This is the portal for the financial request. Please select the appropriate option below.",
-      "buttonText": "Financial Request"
+      "newRequestButton": "Create Financial Request",
+      "continueRequestButton": "Continue Request"
     },
     "NotFoundPage": {
       "title": "Page not found: (404)"

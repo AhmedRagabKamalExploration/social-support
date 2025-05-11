@@ -30,7 +30,7 @@ export function EmploymentStatus() {
       render={({ field }) => (
         <FormItem>
           <FormLabel>{t('label')}</FormLabel>
-          <Select onValueChange={field.onChange} value={field.value}>
+          <Select onValueChange={field.onChange} value={field.value ?? ''}>
             <FormControl>
               <SelectTrigger>
                 <SelectValue placeholder={t('placeholder')} />

@@ -7,7 +7,8 @@
     "HomePage": {
       "title": "مرحبا بك في البوابة",
       "subTitle": "هذه هي بوابة طلب المساعدة المالية. يرجى اختيار الخيار المناسب أدناه.",
-      "buttonText": "طلب المساعدة المالية"
+      "newRequestButton": "طلب جديد",
+      "continueRequestButton": "استكمال الطلب"
     },
     "NotFoundPage": {
       "title": "الصفحة غير موجودة: (404)"
