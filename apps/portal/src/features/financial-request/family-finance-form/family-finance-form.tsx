@@ -102,6 +102,13 @@ export function FamilyFinanceForm() {
     return false;
   };
 
+  useEffect(() => {
+    if (isHydrated && savedData) {
+      form.reset(savedData);
+      setFamilyFinanceInfoCompleted(true);
+    }
+  }, [isHydrated, savedData, form]);
+
   // Register the form submit handler with the stepper context
   useEffect(() => {
     registerFormSubmitHandler(handleSubmit);

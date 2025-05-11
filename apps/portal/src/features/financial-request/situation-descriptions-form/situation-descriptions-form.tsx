@@ -20,16 +20,17 @@ import { EmploymentCircumstances } from './employment-circumstances/employment-c
 import { ReasonForApplying } from './reason-for-applying/reason-for-applying';
 
 // API response type
-interface FinancialRequestResponse {
+type FinancialRequestResponse = {
   success: boolean;
   message: string;
   requestId?: string;
-}
+};
 
 export function SituationDescriptionsForm() {
   const t = useTranslations('feedback');
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const { isLastStep, registerFormSubmitHandler, goToStep } =
     useFinanceRequestStepper();
 
@@ -124,6 +125,9 @@ export function SituationDescriptionsForm() {
             throw new Error(result.message || 'Failed to submit request');
           }
 
+          // Mark as submitted to prevent redirects
+          setIsSubmitted(true);
+
           // Show success message
           toast.success('Application submitted successfully!', {
             description: `Your request ID is ${result.requestId}`,
@@ -180,23 +184,24 @@ export function SituationDescriptionsForm() {
   }, [form, setSituationDescriptions]);
 
   useEffect(() => {
-    // Only check values and redirect after the store has been hydrated
-    if (isHydrated) {
-      if (!isPersonalInformationCompleted) {
-        toast.error('You should fill the personal information first');
-        goToStep(0);
-        return;
-      }
-      if (!isFamilyFinanceInfoCompleted) {
-        toast.error('You should fill the family finance info first');
-        goToStep(1);
-      }
+    if (!isHydrated || isSubmitted) return;
+
+    if (!isPersonalInformationCompleted) {
+      toast.error('You should fill the personal information first');
+      goToStep(0);
+      return;
+    }
+
+    if (!isFamilyFinanceInfoCompleted) {
+      toast.error('You should fill the family finance info first');
+      goToStep(1);
     }
   }, [
     isFamilyFinanceInfoCompleted,
     isPersonalInformationCompleted,
     goToStep,
     isHydrated,
+    isSubmitted,
   ]);
 
   return (

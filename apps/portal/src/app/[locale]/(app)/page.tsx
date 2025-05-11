@@ -11,7 +11,9 @@ export default function AppPage() {
       <Headline>{t('title')}</Headline>
       <Paragraph className="text-center">{t('subTitle')}</Paragraph>
       <Button icon={<ArrowRight className="rtl:rotate-180" />}>
-        <Link href="/financial-request">{t('buttonText')}</Link>
+        <Link href="/financial-request/personal-information">
+          {t('buttonText')}
+        </Link>
       </Button>
     </div>
   );

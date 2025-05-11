@@ -1,6 +1,6 @@
 import { Button, Card, CardContent, Headline, Paragraph } from '@dge/ui-core';
 import { CheckCircle } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 
 import { Link } from '@/i18n/navigation';
 
@@ -10,7 +10,7 @@ export default async function RequestSuccessPage({
   searchParams: Promise<{ requestId: string }>;
 }) {
   const { requestId } = await searchParams;
-  const t = useTranslations('Pages.RequestSuccess');
+  const t = await getTranslations('Pages.RequestSuccess');
 
   return (
     <div className="container py-8">
