@@ -1,9 +1,12 @@
 'use client';
 
 import { Button } from '@dge/ui-core';
+import * as Sentry from '@sentry/nextjs';
 import { RefreshCcwIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useEffect } from 'react';
+
+import { log } from '@/utils/log';
 
 export default function UnExpectedError({
   error,
@@ -14,8 +17,7 @@ export default function UnExpectedError({
 }>) {
   const t = useTranslations('Pages.ErrorPage');
   useEffect(() => {
-    // integrate with Sentry or other error reporting service
-    console.error(error);
+    log(error);
   }, [error]);
 
   return (
