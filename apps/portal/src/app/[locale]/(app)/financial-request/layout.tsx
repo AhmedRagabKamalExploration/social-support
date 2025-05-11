@@ -12,11 +12,15 @@ export default function FinancialRequestLayout({
 }) {
   return (
     <FinanceRequestStepperProvider>
-      <Card className="my-4 flex-1">
-        <CardContent className="space-y-6 p-4">
+      <Card className="relative my-4 flex flex-1 flex-col">
+        <CardContent className="p-4">
           <StepperProgress />
-          <div className="py-4">{children}</div>
-          <StepperNavigation />
+          <div className="py-4 pb-20">{children}</div>
+          <div className="bg-background/95 fixed right-0 bottom-0 left-0 z-10 border-t px-4 py-3 shadow-[0_-2px_10px_rgba(0,0,0,0.05)] backdrop-blur-sm">
+            <div className="container mx-auto max-w-screen-lg">
+              <StepperNavigation />
+            </div>
+          </div>
         </CardContent>
       </Card>
     </FinanceRequestStepperProvider>

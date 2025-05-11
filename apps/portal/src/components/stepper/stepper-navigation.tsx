@@ -70,18 +70,25 @@ export function StepperNavigation({
   };
 
   return (
-    <div className="flex justify-between pt-6">
-      <Button variant="outline" onClick={handlePrevious} disabled={isFirstStep}>
-        {t('previous')}
+    <div className="flex w-full justify-between px-2 py-2">
+      <Button
+        variant="outline"
+        onClick={handlePrevious}
+        disabled={isFirstStep}
+        className="min-w-24 shadow-sm"
+      >
         <ArrowLeft className="me-2 size-4 rtl:rotate-180" />
+        {t('previous')}
       </Button>
 
       {isLastStep && showSubmitOnLastStep ? (
-        <Button onClick={handleSubmit}>{t('submit')}</Button>
+        <Button onClick={handleSubmit} className="min-w-24 shadow-sm">
+          {t('submit')}
+        </Button>
       ) : (
-        <Button className="flex" onClick={handleNext}>
-          <ArrowRight className="ms-2 size-4 rtl:rotate-180" />
+        <Button className="min-w-24 shadow-sm" onClick={handleNext}>
           {t('next')}
+          <ArrowRight className="ms-2 size-4 rtl:rotate-180" />
         </Button>
       )}
     </div>

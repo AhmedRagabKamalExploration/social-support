@@ -103,7 +103,7 @@ export function FamilyFinanceForm() {
 
   return (
     <FormProvider {...form}>
-      <form className="grid grid-cols-2 gap-4">
+      <form className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <MaritalStatus />
         <NumberOfDependents />
         <EmploymentStatus />
