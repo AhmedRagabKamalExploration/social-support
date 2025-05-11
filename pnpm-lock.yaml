@@ -110,6 +110,9 @@ importers:
       tailwindcss-animate:
         specifier: ^1.0.7
         version: 1.0.7(tailwindcss@4.1.5)
+      web-vitals:
+        specifier: ^5.0.0
+        version: 5.0.0
       zod:
         specifier: ^3.24.2
         version: 3.24.4
@@ -5735,6 +5738,9 @@ packages:
 
   vscode-uri@3.1.0:
     resolution: {integrity: sha512-/BpdSx+yCQGnCvecbyXdxHDkuk55/G3xwnC0GqY4gmQ3j+A+g8kzzgB4Nk/SINjqn6+waqw3EgbVF2QKExkRxQ==}
+
+  web-vitals@5.0.0:
+    resolution: {integrity: sha512-yuayYLYyO4QdqB7YriMtUZxCIsUbcpZLnoPCJXocLvTRcAh/Jz2rgqsHrh9Oz/NHApB/Somd05NMsuhJV3YcLQ==}
 
   webidl-conversions@7.0.0:
     resolution: {integrity: sha512-VwddBukDzu71offAQR975unBIGqfKZpM+8ZX6ySk8nYhVoo5CYaZyzt3YBvYtRtO+aoGlqxPg/B87NGVZ/fu6g==}
@@ -11668,6 +11674,8 @@ snapshots:
       - yaml
 
   vscode-uri@3.1.0: {}
+
+  web-vitals@5.0.0: {}
 
   webidl-conversions@7.0.0: {}
 
